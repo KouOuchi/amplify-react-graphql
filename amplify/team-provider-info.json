@@ -10,6 +10,12 @@
       "StackName": "amplify-amplifyreactgraphql-sampledev-132807",
       "StackId": "arn:aws:cloudformation:ap-northeast-1:398488096140:stack/amplify-amplifyreactgraphql-sampledev-132807/5c6033e0-9194-11ee-af75-0adc4715c12b",
       "AmplifyAppId": "d2c9u7y1nfk0f0"
+    },
+    "categories": {
+      "auth": {
+        "amplifyreactgraphqlf21186d5": {},
+        "userPoolGroups": {}
+      }
     }
   }
 }

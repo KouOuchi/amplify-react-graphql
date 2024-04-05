@@ -1,11 +1,14 @@
+// react imports
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
 import {
+  createRoutesFromElements,
   createBrowserRouter,
-  RouterProvider
+  RouterProvider,
+  Route,
 } from "react-router-dom";
+
+// application imports
 import ErrorPage from "./routes/error-page";
 import Contact, {
   loader as contactLoader,
@@ -22,48 +25,102 @@ import Cam, {
 } from "./routes/cam";
 import Index from "./routes/index";
 import { action as destroyAction } from "./routes/destroy";
+import './index.css';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
-    loader: rootLoader,
-    action: rootAction,
-    children: [
-      { index: true, element: <Index /> },
-      {
-        path: "contacts/:contactId",
-        element: <Contact />,
-        loader: contactLoader,
-        action: contactAction,
-      },
-      {
-        path: "contacts/:contactId/edit",
-        element: <EditContact />,
-        loader: contactLoader,
-        action: editAction,
-      },
-      {
-        path: "cam",
-        element: <Cam />,
-      },
-      {
-        path: "contacts/:contactId/destroy",
-        action: destroyAction,
-      },
-    ],
-  },
-]);
+// auth related imports
+//import LoginPage from './login/login_page';
+//import ProtectedPage from './login/protected_page';
+//import { ProtectedRoute, } from './login/protected_route';
+
+// amplify
+import Amplify from 'aws-amplify'; // checked 2024-4-5
+//import awsmobile from './aws-exports'; // checked 2024-4-5
+import { generateClient } from "aws-amplify/api"; // checked 2024-4-5
+//import { type AuthUser } from "aws-amplify/auth";
+//import { useAuthenticator } from '@aws-amplify/ui-react';
+// NOTE: useAuthenticator or withAuthenticator???
+//import {
+//  withAuthenticator,
+//  WithAuthenticatorProps,
+//} from '@aws-amplify/ui-react'; // checked 2024-4-5
+
+import { Authenticator } from '@aws-amplify/ui-react';
+import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
+
+// etc
+import reportWebVitals from './reportWebVitals';
+
+// start logic
+//Amplify.configure(awsmobile); //checed 2024-4-5
+
+//type AppProps = {
+//  signOut?: UseAuthenticator["signOut"]; //() => void;
+//  user?: AuthUser;
+//};
+
+//interface Props extends WithAuthenticatorProps {
+//  isPassedToWithAuthenticator: boolean;
+//}
+
+// build router
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+        path= "/"
+        element={<Root />}
+        errorElement={<ErrorPage />}
+        loader={ rootLoader }
+        action={ rootAction }
+      >
+        <Route
+          index={true}
+          element={<Index />}
+        />
+        <Route 
+          path="contacts/:contactId"
+          element={<Contact />}
+          loader={ contactLoader }
+          action={ contactAction }
+        />
+        <Route
+          path="contacts/:contactId/edit"
+          element={<EditContact />}
+          loader={ contactLoader }
+          action={ editAction }
+        />
+        <Route
+          path="cam"
+          element={<Cam />}
+        />
+        <Route
+          path="contacts/:contactId/destroy"
+          action={ destroyAction }
+    />
+    </Route>
+  )
+);
+
+//export async function getStaticProps() {
+//  return {
+//    props: {
+//      isPassedToWithAuthenticator: true,
+//    },
+//  };
+//}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Authenticator.Provider>
+      <RouterProvider router={router} />
+    </Authenticator.Provider>
   </React.StrictMode>
 );
+
+//export default withAuthenticator(props);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

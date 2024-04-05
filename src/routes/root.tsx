@@ -1,3 +1,4 @@
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
          Link, 
          useLoaderData, 
