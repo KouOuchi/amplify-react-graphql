@@ -4,28 +4,34 @@ import ReactDOM from 'react-dom/client';
 import {
   createRoutesFromElements,
   createBrowserRouter,
+  BrowserRouter,
   RouterProvider,
   Route,
+  Routes,
 } from "react-router-dom";
 
 // application imports
-import ErrorPage from "./routes/error-page";
+import ErrorPage, {
+} from "./routes/error-page";
 import Contact, {
   loader as contactLoader,
   action as contactAction,
 } from "./routes/contact";
-import Root, { 
+import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/root";
 import EditContact, {
   action as editAction,
 } from "./routes/edit";
-import Cam, {
+import Cam, { 
 } from "./routes/cam";
-import Index from "./routes/index";
+import Index, {
+} from "./routes/index";
 import { action as destroyAction } from "./routes/destroy";
 import './index.css';
+import { Welcome, 
+} from "./welcome/welcome";
 
 // auth related imports
 //import LoginPage from './login/login_page';
@@ -63,12 +69,17 @@ import reportWebVitals from './reportWebVitals';
 //}
 
 // build router
-const router = createBrowserRouter(
-  createRoutesFromElements(
+function RootRouter() {
+  return (
+    <Routes>
+       <Route
+        path= "/welcome/welcome"
+        element={<Welcome />}
+      />
     <Route
-        path= "/"
-        element={<Root />}
-        errorElement={<ErrorPage />}
+      path= "/"
+      element={<Root />}
+    errorElement={<ErrorPage />}
         loader={ rootLoader }
         action={ rootAction }
       >
@@ -95,22 +106,19 @@ const router = createBrowserRouter(
         <Route
           path="contacts/:contactId/destroy"
           action={ destroyAction }
-    />
+        />
     </Route>
-  )
-);
-
-//export async function getStaticProps() {
-//  return {
-//    props: {
-//      isPassedToWithAuthenticator: true,
-//    },
-//  };
-//}
+</Routes>
+  );
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const router = createBrowserRouter([
+  { path: "*", Component: RootRouter },
+]);
 
 root.render(
   <React.StrictMode>

@@ -15,12 +15,16 @@ export const action:ActionFunction = async ({request, params}) => {
 };
 
 export async function loader(): Promise<TContact[]> {
+  console.debug('@!!!Root:loader');
+
   const contacts = await getContacts('');
   return contacts;
 }
 
 export default function Root() {
   const contacts:TContact[] = useLoaderData() as TContact[];
+
+  console.debug('@Root:'+JSON.stringify(contacts));
 
   return (
     <>
@@ -50,9 +54,9 @@ export default function Root() {
           </Form>
           <Link to="./cam">CAM</Link>
         </div>
-        <nav>
 
-          {contacts.length ? (
+        <nav>
+          {contacts && contacts.length ? (
             <ul>
               {contacts.map((contact:TContact) => (
                 <li key={contact.id}>
@@ -68,7 +72,6 @@ export default function Root() {
               <i>No contacts</i>
             </p>
           )}
-
         </nav>
       </div>
 
