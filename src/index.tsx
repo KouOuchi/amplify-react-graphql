@@ -16,9 +16,10 @@ import ErrorPage, {
 import Contact, {
   action as contactAction,
 } from "./routes/contact";
-import Root, {
-  action as rootAction,
-} from "./routes/root";
+import Top, {
+//  loader as topLoader,
+  action as topAction,
+} from "./routes/top";
 import EditContact, {
   action as editAction,
 } from "./routes/edit";
@@ -72,60 +73,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 const queryClient = new QueryClient();
 
 // build router
-function WelcomeRouter() {
-  return createRoutesFromElements(
-    <Route
-      path= "/welcome"
-      element={<Welcome />}
-      errorElement={<ErrorPage />}
-    />
-  );
-}
-
-function ToolAppRouter() {
-  return (
-    <Authenticator.Provider>
-      <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route
-            path= "/"
-            element={<Root />}
-            errorElement={<ErrorPage />}
-            action={ rootAction }
-          >
-            <Route
-              index={true}
-              element={<Index />}
-            />
-            <Route 
-              path="contacts/:contactId"
-              element={<Contact />}
-              action={ contactAction }
-            />
-            <Route
-              path="contacts/:contactId/edit"
-              element={<EditContact />}
-              action={ editAction }
-            />
-            <Route
-              path="cam"
-              element={<Cam />}
-            />
-            <Route
-              path="contacts/:contactId/destroy"
-              action={ destroyAction }
-            />
-          </Route>
-        </Routes>
-      </QueryClientProvider>
-    </Authenticator.Provider>
-  );
-}
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/*">
@@ -141,9 +88,9 @@ const router = createBrowserRouter(
       <Route path="toolapp/*">
         <Route
           path= "top"
-          element={<Root />}
+          element={<Top />}
           errorElement={<ErrorPage />}
-          action={ rootAction }
+          action={ topAction }
         >
           <Route
             index={true}
@@ -158,7 +105,6 @@ const router = createBrowserRouter(
             path="contacts/:contactId/edit"
             element={<EditContact />}
             action={ editAction }
-            loader={ async ({params}) => { console.debug('@editLoader');  return null; } }
           />
           <Route
             path="cam"
@@ -173,20 +119,20 @@ const router = createBrowserRouter(
     </Route>
   )
 );
-//const router = createBrowserRouter([
-//  { path: "/welcome/*", Component: WelcomeRouter },
-//  { path: "/toolapp/*", Component: ToolAppRouter },
-//]);
 
-  root.render(
-    <React.StrictMode>
-      <Authenticator.Provider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </Authenticator.Provider>
-    </React.StrictMode>
-  );
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+  <React.StrictMode>
+    <Authenticator.Provider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Authenticator.Provider>
+  </React.StrictMode>
+);
 
 //export default withAuthenticator(props);
 

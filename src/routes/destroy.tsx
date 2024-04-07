@@ -16,6 +16,6 @@ export const action:ActionFunction = async ({ request, params }) => {
   const id:string = params.contactId as string;
 
   await deleteContact(id);
-  return redirect("/");
+  return redirect("../../top");
 };
 

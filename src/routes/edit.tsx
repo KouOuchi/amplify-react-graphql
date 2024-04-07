@@ -1,5 +1,6 @@
 import { 
-  useQuery, 
+  useQuery,
+  useQueryClient,
 } from 'react-query';
 import { 
   Form,
@@ -11,15 +12,16 @@ import {
 } from "react-router-dom";
 import { 
   getContact,
-  updateContact, 
+  UpdateContact, 
   TContact 
 } from "../contacts";
 
 export const action:ActionFunction = async ({ request, params }) => {
+  console.debug('@editAction:');
 
   const formData = await request.formData();
-//  const updates = Object.fromEntries(formData);
-//  console.debug('@editAction:updated'+JSON.stringify(updates)+'@id:'+id);
+  //  const updates = Object.fromEntries(formData);
+  //  console.debug('@editAction:updated'+JSON.stringify(updates)+'@id:'+id);
   const updated:TContact = {
     id: Number(params.contactId),
     first: formData.get("first") as string,
@@ -30,8 +32,9 @@ export const action:ActionFunction = async ({ request, params }) => {
     favorite: formData.get("favorite") === "true" ? true : false as boolean,
   };
   
-  await updateContact(updated);
-  return redirect(`/contacts/${params.contactId}`);
+  await UpdateContact(updated);
+
+  return redirect(`../contacts/${params.contactId}`);
 };
 
 export default function EditContact() {
@@ -60,7 +63,7 @@ export default function EditContact() {
 
 
   return (
-    <Form id="contact-form" action="save">
+    <Form method="post" id="contact-form">
       <p>
         <span>Name</span>
         <input

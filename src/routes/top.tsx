@@ -16,7 +16,7 @@ export const action:ActionFunction = async ({request, params}) => {
   return redirect(`contacts/${contact.id}/edit`);
 };
 
-export default function Root() {
+export default function Top() {
   const { isLoading, error, data } = useQuery<TContact[]>('get_all', async () => {
     return await getContacts('');
   });
@@ -29,7 +29,7 @@ export default function Root() {
 
   const contacts = data as TContact[];
 
-  console.debug('@Root:'+JSON.stringify(contacts));
+  console.debug('@Top:'+JSON.stringify(contacts));
 
   return (
     <>

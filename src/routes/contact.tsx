@@ -12,7 +12,7 @@ import {
 import { 
   getContact, 
   TContact,
-  updateContact,
+  UpdateContact,
 } from "../contacts";
 
 export const action:ActionFunction = async ({ request, params }) => {
@@ -38,7 +38,7 @@ export const action:ActionFunction = async ({ request, params }) => {
     throw new Error("true false error");
   }
   
-  return updateContact(contact);
+  return UpdateContact(contact);
 };
 
 //export async function fetchData(): Promise<TContact> {
@@ -102,7 +102,7 @@ export default function Contact() {
             <button type="submit">Edit</button>
           </Form>
           <Form
-            action="destroy"
+            action="destroy" method="post"
             onSubmit={(event) => {
               const isConfirmed = window.confirm("本当に削除しますか？");
               if (!isConfirmed) {
