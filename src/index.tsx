@@ -73,14 +73,12 @@ const queryClient = new QueryClient();
 
 // build router
 function WelcomeRouter() {
-  return (
-    <Routes>
-      <Route
-        path= "/"
-        element={<Welcome />}
-        errorElement={<ErrorPage />}
-      />
-    </Routes>
+  return createRoutesFromElements(
+    <Route
+      path= "/welcome"
+      element={<Welcome />}
+      errorElement={<ErrorPage />}
+    />
   );
 }
 
@@ -128,16 +126,67 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const router = createBrowserRouter([
-  { path: "/welcome/*", Component: WelcomeRouter },
-  { path: "/toolapp/*", Component: ToolAppRouter },
-]);
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/*">
 
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+      <Route path="welcome/*">
+        <Route
+          path="welcome"
+          element={<Welcome />}
+          errorElement={<ErrorPage />}
+        />
+      </Route>
+
+      <Route path="toolapp/*">
+        <Route
+          path= "top"
+          element={<Root />}
+          errorElement={<ErrorPage />}
+          action={ rootAction }
+        >
+          <Route
+            index={true}
+            element={<Index />}
+          />
+          <Route 
+            path="contacts/:contactId"
+            element={<Contact />}
+            action={ contactAction }
+          />
+          <Route
+            path="contacts/:contactId/edit"
+            element={<EditContact />}
+            action={ editAction }
+            loader={ async ({params}) => { console.debug('@editLoader');  return null; } }
+          />
+          <Route
+            path="cam"
+            element={<Cam />}
+          />
+          <Route
+            path="contacts/:contactId/destroy"
+            action={ destroyAction }
+          />
+        </Route>
+      </Route>
+    </Route>
+  )
 );
+//const router = createBrowserRouter([
+//  { path: "/welcome/*", Component: WelcomeRouter },
+//  { path: "/toolapp/*", Component: ToolAppRouter },
+//]);
+
+  root.render(
+    <React.StrictMode>
+      <Authenticator.Provider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </Authenticator.Provider>
+    </React.StrictMode>
+  );
 
 //export default withAuthenticator(props);
 
