@@ -1,13 +1,17 @@
-import { 
-  useQuery, 
-} from 'react-query';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
          Link, 
          Form,
          ActionFunction,
+         LoaderFunction,
+         useLoaderData,
          redirect, } from "react-router-dom";
 import { getContacts, createContact,TContact } from "../contacts";
+
+export const loader:LoaderFunction = () => {
+  console.debug('@topLoader');
+  return getContacts('');
+};
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@create new action #1');
@@ -17,17 +21,7 @@ export const action:ActionFunction = async ({request, params}) => {
 };
 
 export default function Top() {
-  const { isLoading, error, data } = useQuery<TContact[]>('get_all', async () => {
-    return await getContacts('');
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error instanceof Error) return <div>An error occurred: {error.message}</div>;
-
-  if(!data) throw new Error('contact data fetching error.');
-
-  const contacts = data as TContact[];
+  const contacts = useLoaderData() as TContact[];
 
   console.debug('@Top:'+JSON.stringify(contacts));
 

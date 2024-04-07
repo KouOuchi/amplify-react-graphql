@@ -1,7 +1,3 @@
-import { 
-  useQuery,
-  useQueryClient,
-} from 'react-query';
 import { matchSorter } from "match-sorter";
 
 export interface TContact {
@@ -104,14 +100,7 @@ export async function UpdateContact(contact:TContact): Promise<TContact> {
   let updated = contacts.find((c:TContact) => c.id === contact.id) as TContact;
 //  console.debug('@updateContact@1:'+JSON.stringify(updated));
   Object.assign(updated, contact);
-  //  console.debug('@updateContact@2:'+JSON.stringify(updated));
-
-  //   await set(contacts);
-
   console.debug('@UpdateContact OK. invalidating...');
-  const queryClient = useQueryClient();
-  queryClient.invalidateQueries('get_all');
-
   return updated;
 }
 

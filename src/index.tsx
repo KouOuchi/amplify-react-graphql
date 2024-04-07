@@ -14,10 +14,11 @@ import {
 import ErrorPage, {
 } from "./routes/error-page";
 import Contact, {
+  loader as contactLoader,
   action as contactAction,
 } from "./routes/contact";
 import Top, {
-//  loader as topLoader,
+  loader as topLoader,
   action as topAction,
 } from "./routes/top";
 import EditContact, {
@@ -56,7 +57,6 @@ import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
 
 // etc
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 // start logic
 //Amplify.configure(awsmobile); //checed 2024-4-5
@@ -69,8 +69,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 //interface Props extends WithAuthenticatorProps {
 //  isPassedToWithAuthenticator: boolean;
 //}
-
-const queryClient = new QueryClient();
 
 // build router
 const router = createBrowserRouter(
@@ -91,6 +89,7 @@ const router = createBrowserRouter(
           element={<Top />}
           errorElement={<ErrorPage />}
           action={ topAction }
+          loader={ topLoader }
         >
           <Route
             index={true}
@@ -100,11 +99,13 @@ const router = createBrowserRouter(
             path="contacts/:contactId"
             element={<Contact />}
             action={ contactAction }
+            loader={ contactLoader }
           />
           <Route
             path="contacts/:contactId/edit"
             element={<EditContact />}
             action={ editAction }
+            loader={ contactLoader }
           />
           <Route
             path="cam"
@@ -127,9 +128,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Authenticator.Provider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <RouterProvider router={router} />
     </Authenticator.Provider>
   </React.StrictMode>
 );
