@@ -1,7 +1,9 @@
+import { 
+  useQuery, 
+} from 'react-query';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
          Link, 
-         useLoaderData, 
          Form,
          ActionFunction,
          redirect, } from "react-router-dom";
@@ -14,15 +16,18 @@ export const action:ActionFunction = async ({request, params}) => {
   return redirect(`contacts/${contact.id}/edit`);
 };
 
-export async function loader(): Promise<TContact[]> {
-  console.debug('@!!!Root:loader');
-
-  const contacts = await getContacts('');
-  return contacts;
-}
-
 export default function Root() {
-  const contacts:TContact[] = useLoaderData() as TContact[];
+  const { isLoading, error, data } = useQuery<TContact[]>('get_all', async () => {
+    return await getContacts('');
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error instanceof Error) return <div>An error occurred: {error.message}</div>;
+
+  if(!data) throw new Error('contact data fetching error.');
+
+  const contacts = data as TContact[];
 
   console.debug('@Root:'+JSON.stringify(contacts));
 
@@ -56,7 +61,7 @@ export default function Root() {
         </div>
 
         <nav>
-          {contacts && contacts.length ? (
+          {contacts.length > 0 ? (
             <ul>
               {contacts.map((contact:TContact) => (
                 <li key={contact.id}>

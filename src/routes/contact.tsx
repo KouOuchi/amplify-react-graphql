@@ -1,31 +1,19 @@
 import { 
+  useQuery, 
+} from 'react-query';
+import { 
   Form, 
   useLoaderData, 
   LoaderFunction, 
   ActionFunction,
   useFetcher,
+  useParams,
 } from "react-router-dom";
 import { 
   getContact, 
   TContact,
   updateContact,
 } from "../contacts";
-
-export const loader: LoaderFunction = async ({ params }) => {
-  console.debug('@params:'+JSON.stringify(params));
-
-  if(!params) {
-    throw new Error("エラー1");
-  }
-  if(!params.contactId) {
-    throw new Error("エラー2");
-  }
-
-  const id:string = params.contactId as string;
-  
-  const contact = await getContact(id);
-  return contact ;
-};
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@contactAction!');
@@ -53,70 +41,83 @@ export const action:ActionFunction = async ({ request, params }) => {
   return updateContact(contact);
 };
 
-export default function Contact() {
-  const contact:TContact = useLoaderData() as TContact;
+//export async function fetchData(): Promise<TContact> {
+//  const id = '';
+//
+//}
 
-  console.debug('@Contact:'+JSON.stringify(contact));
-  if(!contact) {
-    return (
-      <div id="contact">
-        <div>
-          <h1>undefined</h1>
-        </div>
-      </div>
-    );
+export default function Contact() {
+  const { contactId } = useParams();
+  console.debug('@Contact:'+JSON.stringify(contactId));
+
+  if(!contactId) {
+    throw new Error("contact id not defined.");
   }
 
-      return (
-        <div id="contact">
-          <div>
-            <img alt="avatar"
-              key={contact.avatar}
-              src={contact.avatar}
-            />
-          </div>
+  const id:string = contactId as string;
 
-          <div>
-            <h1>
-              {contact.first} {contact.last}
-              <Favorite contact={contact} />
-            </h1>
+  const { isLoading, error, data } = useQuery<TContact>(`get_one_${id}`, async () => {
+    return await getContact(id);
+  });
 
-            {contact.twitter && (
-              <p>
-                <a
-                  target="_blank" rel="noreferrer"
-                  href={`https://twitter.com/${contact.twitter}`}
-                >
-                  {contact.twitter}
-                </a>
-              </p>
-            )}
+  if (isLoading) return <div>Loading...</div>;
 
-            {contact.notes && <p>{contact.notes}</p>}
+  if (error instanceof Error) return <div>An error occurred: {error.message}</div>;
 
-            <div>
-              <Form action="edit">
-                <button type="submit">Edit</button>
-              </Form>
-              <Form
-                method="post"
-                action="destroy"
-                onSubmit={(event) => {
-                  const isConfirmed = window.confirm("本当に削除しますか？");
-                  if (!isConfirmed) {
-                    console.debug("@answer no.");
-                    event.preventDefault();
-                  } else {
-                    console.debug("@answer yes.");
-                  }
-                }}>
-                <button type="submit">Delete</button>
-              </Form>
-            </div>
-          </div>
+  if(!data) throw new Error('contact data fetching error.');
+
+  const contact = data as TContact;
+
+
+  return (
+    <div id="contact">
+      <div>
+        <img alt="avatar"
+          key={contact.avatar}
+          src={contact.avatar}
+        />
+      </div>
+
+      <div>
+        <h1>
+          {contact.first} {contact.last}
+          <Favorite contact={contact} />
+        </h1>
+
+        {contact.twitter && (
+          <p>
+            <a
+              target="_blank" rel="noreferrer"
+              href={`https://twitter.com/${contact.twitter}`}
+            >
+              {contact.twitter}
+            </a>
+          </p>
+        )}
+
+        {contact.notes && <p>{contact.notes}</p>}
+
+        <div>
+          <Form action="edit">
+            <button type="submit">Edit</button>
+          </Form>
+          <Form
+            action="destroy"
+            onSubmit={(event) => {
+              const isConfirmed = window.confirm("本当に削除しますか？");
+              if (!isConfirmed) {
+                console.debug("@answer no.");
+                event.preventDefault();
+              } else {
+                console.debug("@answer yes.");
+              }
+            }}>
+            <button type="submit">Delete</button>
+          </Form>
         </div>
-      );
+      </div>
+    </div>
+  );
 }
 
 interface ContactProps {

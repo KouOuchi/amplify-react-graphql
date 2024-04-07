@@ -14,11 +14,9 @@ import {
 import ErrorPage, {
 } from "./routes/error-page";
 import Contact, {
-  loader as contactLoader,
   action as contactAction,
 } from "./routes/contact";
 import Root, {
-  loader as rootLoader,
   action as rootAction,
 } from "./routes/root";
 import EditContact, {
@@ -28,7 +26,9 @@ import Cam, {
 } from "./routes/cam";
 import Index, {
 } from "./routes/index";
-import { action as destroyAction } from "./routes/destroy";
+import { 
+  action as destroyAction 
+} from "./routes/destroy";
 import './index.css';
 import { Welcome, 
 } from "./welcome/welcome";
@@ -55,6 +55,7 @@ import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
 
 // etc
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 // start logic
 //Amplify.configure(awsmobile); //checed 2024-4-5
@@ -68,47 +69,58 @@ import reportWebVitals from './reportWebVitals';
 //  isPassedToWithAuthenticator: boolean;
 //}
 
+const queryClient = new QueryClient();
+
 // build router
-function RootRouter() {
+function WelcomeRouter() {
   return (
     <Routes>
-       <Route
-        path= "/welcome/welcome"
+      <Route
+        path= "/"
         element={<Welcome />}
+        errorElement={<ErrorPage />}
       />
-    <Route
-      path= "/"
-      element={<Root />}
-    errorElement={<ErrorPage />}
-        loader={ rootLoader }
-        action={ rootAction }
-      >
-        <Route
-          index={true}
-          element={<Index />}
-        />
-        <Route 
-          path="contacts/:contactId"
-          element={<Contact />}
-          loader={ contactLoader }
-          action={ contactAction }
-        />
-        <Route
-          path="contacts/:contactId/edit"
-          element={<EditContact />}
-          loader={ contactLoader }
-          action={ editAction }
-        />
-        <Route
-          path="cam"
-          element={<Cam />}
-        />
-        <Route
-          path="contacts/:contactId/destroy"
-          action={ destroyAction }
-        />
-    </Route>
-</Routes>
+    </Routes>
+  );
+}
+
+function ToolAppRouter() {
+  return (
+    <Authenticator.Provider>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route
+            path= "/"
+            element={<Root />}
+            errorElement={<ErrorPage />}
+            action={ rootAction }
+          >
+            <Route
+              index={true}
+              element={<Index />}
+            />
+            <Route 
+              path="contacts/:contactId"
+              element={<Contact />}
+              action={ contactAction }
+            />
+            <Route
+              path="contacts/:contactId/edit"
+              element={<EditContact />}
+              action={ editAction }
+            />
+            <Route
+              path="cam"
+              element={<Cam />}
+            />
+            <Route
+              path="contacts/:contactId/destroy"
+              action={ destroyAction }
+            />
+          </Route>
+        </Routes>
+      </QueryClientProvider>
+    </Authenticator.Provider>
   );
 }
 
@@ -117,14 +129,13 @@ const root = ReactDOM.createRoot(
 );
 
 const router = createBrowserRouter([
-  { path: "*", Component: RootRouter },
+  { path: "/welcome/*", Component: WelcomeRouter },
+  { path: "/toolapp/*", Component: ToolAppRouter },
 ]);
 
 root.render(
   <React.StrictMode>
-    <Authenticator.Provider>
-      <RouterProvider router={router} />
-    </Authenticator.Provider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

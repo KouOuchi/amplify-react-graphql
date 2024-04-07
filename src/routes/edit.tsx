@@ -1,12 +1,19 @@
 import { 
+  useQuery, 
+} from 'react-query';
+import { 
   Form,
-  useLoaderData,
   redirect,
   ActionFunction,
   LoaderFunction,
   useNavigate,
+  useParams
 } from "react-router-dom";
-import { updateContact, TContact } from "../contacts";
+import { 
+  getContact,
+  updateContact, 
+  TContact 
+} from "../contacts";
 
 export const action:ActionFunction = async ({ request, params }) => {
 
@@ -28,13 +35,32 @@ export const action:ActionFunction = async ({ request, params }) => {
 };
 
 export default function EditContact() {
-  const contact = useLoaderData() as TContact;
   const navigate = useNavigate();
 
-  //console.debug('@EditContact:'+JSON.stringify(contact));
-  
+  const { contactId } = useParams();
+  console.debug('@Contact:'+JSON.stringify(contactId));
+
+  if(!contactId) {
+    throw new Error("contact id not defined.");
+  }
+
+  const id:string = contactId as string;
+
+  const { isLoading, error, data } = useQuery<TContact>(`get_one_${id}`, async () => {
+    return await getContact(id);
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error instanceof Error) return <div>An error occurred: {error.message}</div>;
+
+  if(!data) throw new Error('contact data fetching error.');
+
+  const contact = data as TContact;
+
+
   return (
-    <Form method="post" id="contact-form">
+    <Form id="contact-form" action="save">
       <p>
         <span>Name</span>
         <input
