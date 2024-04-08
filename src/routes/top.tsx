@@ -1,10 +1,12 @@
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
-         Link, 
+         Link,
+         NavLink,
          Form,
          ActionFunction,
          LoaderFunction,
          useLoaderData,
+         useNavigation,
          redirect, } from "react-router-dom";
 import { getContacts, createContact,TContact } from "../contacts";
 
@@ -22,7 +24,7 @@ export const action:ActionFunction = async ({request, params}) => {
 
 export default function Top() {
   const contacts = useLoaderData() as TContact[];
-
+  const navigation = useNavigation();
   console.debug('@Top:'+JSON.stringify(contacts));
 
   return (
@@ -59,10 +61,18 @@ export default function Top() {
             <ul>
               {contacts.map((contact:TContact) => (
                 <li key={contact.id}>
-                  <Link to={`contacts/${contact.id}`}>
+                  <NavLink to={`contacts/${contact.id}`}
+                    className={({ isActive, isPending }) =>
+                      isActive
+                      ? "active"
+                      : isPending
+                      ? "pending"
+                      : ""
+                    }
+                  >
                     {contact.first} {contact.last}
                     {contact.favorite && <span>★</span>}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -74,7 +84,11 @@ export default function Top() {
         </nav>
       </div>
 
-      <div id="detail">
+      <div id="detail"
+        className={
+        navigation.state === "loading" ? "loading" : ""
+        }
+      >
         <Outlet />
       </div>
 
