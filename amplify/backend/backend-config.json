@@ -1,6 +1,6 @@
 {
   "auth": {
-    "amplifyreactgraphqlf21186d5": {
+    "amplifyreactgraphql9b1c9980": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -16,31 +16,13 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
+        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    },
-    "userPoolGroups": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "amplifyreactgraphqlf21186d5"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito-UserPool-Groups"
     }
   }
 }

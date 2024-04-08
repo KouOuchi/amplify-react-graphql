@@ -41,11 +41,11 @@ import { Welcome,
 //import { ProtectedRoute, } from './login/protected_route';
 
 // amplify
-import Amplify from 'aws-amplify'; // checked 2024-4-5
+import { Amplify } from 'aws-amplify'; // checked 2024-4-5
 //import awsmobile from './aws-exports'; // checked 2024-4-5
 import { generateClient } from "aws-amplify/api"; // checked 2024-4-5
 //import { type AuthUser } from "aws-amplify/auth";
-//import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 // NOTE: useAuthenticator or withAuthenticator???
 //import {
 //  withAuthenticator,
@@ -59,7 +59,8 @@ import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
 import reportWebVitals from './reportWebVitals';
 
 // start logic
-//Amplify.configure(awsmobile); //checed 2024-4-5
+import awsmobile from './aws-exports.js'
+Amplify.configure(awsmobile); //checed 2024-4-5
 
 //type AppProps = {
 //  signOut?: UseAuthenticator["signOut"]; //() => void;
@@ -86,7 +87,14 @@ const router = createBrowserRouter(
       <Route path="toolapp/*">
         <Route
           path= "top"
-          element={<Top />}
+          element={
+            <Authenticator loginMechanisms={['username']} variation="modal" initialState="signUp">
+                                           {({ signOut, user }) => (
+                                             <Top />
+                                           )}
+            </Authenticator>
+          }
+
           errorElement={<ErrorPage />}
           action={ topAction }
           loader={ topLoader }
