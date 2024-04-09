@@ -40,7 +40,6 @@ import {
 import Tools, {
 } from "./routes/tools/tools";
 
-
 // welcom route
 import { Welcome, 
 } from "./welcome/welcome";
