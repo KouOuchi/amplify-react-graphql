@@ -2,7 +2,7 @@ import {
   redirect,
   ActionFunction 
 } from "react-router-dom";
-import { deleteContact } from "../contacts";
+import { deleteContact } from "./contacts";
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@destroy:action');

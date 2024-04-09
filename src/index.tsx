@@ -12,28 +12,36 @@ import {
 
 // application imports
 import ErrorPage, {
-} from "./routes/error-page";
+} from "./error-page";
+
+// places routes
 import Contact, {
   loader as contactLoader,
   action as contactAction,
-} from "./routes/contact";
+} from "./routes/places/contact";
 import Main, {
 } from "./routes/main";
 import Places, {
   loader as placesLoader,
   action as placesAction,
-} from "./routes/places";
+} from "./routes/places/places";
 import EditContact, {
   action as editAction,
-} from "./routes/edit";
+} from "./routes/places/edit";
 import Cam, { 
 } from "./routes/cam";
 import Index, {
-} from "./routes/index";
+} from "./routes/places/index";
 import { 
   action as destroyAction 
-} from "./routes/destroy";
-import './index.css';
+} from "./routes/places/destroy";
+//import './index.css';
+
+import Tools, {
+} from "./routes/tools/tools";
+
+
+// welcom route
 import { Welcome, 
 } from "./welcome/welcome";
 
@@ -127,6 +135,15 @@ const router = createBrowserRouter(
             <Route
               path="contacts/:contactId/destroy"
               action={ destroyAction }
+            />
+          </Route>
+          <Route
+            path= "tools"
+            element={<Tools />}
+          >
+            <Route
+              index={true}
+              element={<Index />}
             />
           </Route>
         </Route>

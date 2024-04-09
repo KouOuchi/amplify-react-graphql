@@ -9,7 +9,7 @@ import {
   getContact, 
   TContact,
   UpdateContact,
-} from "../contacts";
+} from "./contacts";
 
 export const loader:LoaderFunction = async ({params}) => {
   console.debug('@editLoader');

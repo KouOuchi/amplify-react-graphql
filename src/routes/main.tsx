@@ -14,39 +14,39 @@ export default function Main() {
   const navigation = useNavigation();
   return (
     <>
-      <nav>
-        <NavLink to='places'
-          className={({ isActive, isPending }) =>
-            isActive
-            ? "active"
-            : isPending
-            ? "pending"
-            : ""
-          }
-        >
-          Places
-        </NavLink>
-        <NavLink to='tools'
-          className={({ isActive, isPending }) =>
-            isActive
-            ? "active"
-            : isPending
-            ? "pending"
-            : ""
-          }
-        >
-          Tools
-        </NavLink>
-        <button value="ログアウト" onClick={(e) => { signOut(); }} />
+    <nav>
+    <NavLink to='places'
+    className={({ isActive, isPending }) =>
+      isActive
+      ? "active"
+      : isPending
+      ? "pending"
+      : ""
+    }
+    >
+    Places
+    </NavLink>
+    <NavLink to='tools'
+    className={({ isActive, isPending }) =>
+      isActive
+      ? "active"
+      : isPending
+      ? "pending"
+      : ""
+    }
+    >
+      Tools
+    </NavLink>
+    <a href="." onClick={(e) => { signOut(); }}>ログアウト</a>
       </nav>
       <div id="detail"
         className={
         navigation.state === "loading" ? "loading" : ""
         }
-      >
+    >
         <Outlet />
       </div>
 
     </>
   );
-}
+    }

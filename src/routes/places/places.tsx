@@ -8,7 +8,7 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import { getContacts, createContact,TContact } from "../contacts";
+import { getContacts, createContact,TContact } from "./contacts";
 
 export const loader:LoaderFunction = () => {
   console.debug('@topLoader');

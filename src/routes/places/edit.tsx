@@ -9,7 +9,7 @@ import {
   getContact,
   UpdateContact, 
   TContact 
-} from "../contacts";
+} from "./contacts";
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@editAction:');
