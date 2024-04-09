@@ -137,7 +137,7 @@ export const CaptureLot: React.FC<CaptureLotProps> = ({onClose}) => {
       <div>
         <h1>CAM</h1>
 
-
+        <QRCodeScanner />
       </div>
 
       <button onClick={() => onClose('This is LOT!')}>閉じる</button>
