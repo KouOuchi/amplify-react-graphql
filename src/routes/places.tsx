@@ -22,7 +22,7 @@ export const action:ActionFunction = async ({request, params}) => {
   return redirect(`contacts/${contact.id}/edit`);
 };
 
-export default function Top() {
+export default function Places() {
   const contacts = useLoaderData() as TContact[];
   const navigation = useNavigation();
   console.debug('@Top:'+JSON.stringify(contacts));

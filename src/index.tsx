@@ -17,10 +17,12 @@ import Contact, {
   loader as contactLoader,
   action as contactAction,
 } from "./routes/contact";
-import Top, {
-  loader as topLoader,
-  action as topAction,
-} from "./routes/top";
+import Main, {
+} from "./routes/main";
+import Places, {
+  loader as placesLoader,
+  action as placesAction,
+} from "./routes/places";
 import EditContact, {
   action as editAction,
 } from "./routes/edit";
@@ -86,43 +88,47 @@ const router = createBrowserRouter(
 
       <Route path="toolapp/*">
         <Route
-          path= "top"
+          path="main"
           element={
             <Authenticator loginMechanisms={['username']} variation="modal" initialState="signUp">
                                            {({ signOut, user }) => (
-                                             <Top />
+                                             <Main />
                                            )}
             </Authenticator>
           }
-
           errorElement={<ErrorPage />}
-          action={ topAction }
-          loader={ topLoader }
         >
           <Route
-            index={true}
-            element={<Index />}
-          />
-          <Route 
-            path="contacts/:contactId"
-            element={<Contact />}
-            action={ contactAction }
-            loader={ contactLoader }
-          />
-          <Route
-            path="contacts/:contactId/edit"
-            element={<EditContact />}
-            action={ editAction }
-            loader={ contactLoader }
-          />
-          <Route
-            path="cam"
-            element={<Cam />}
-          />
-          <Route
-            path="contacts/:contactId/destroy"
-            action={ destroyAction }
-          />
+            path= "places"
+            element={<Places />}
+            action={ placesAction }
+            loader={ placesLoader }
+          >
+            <Route
+              index={true}
+              element={<Index />}
+            />
+            <Route 
+              path="contacts/:contactId"
+              element={<Contact />}
+              action={ contactAction }
+              loader={ contactLoader }
+            />
+            <Route
+              path="contacts/:contactId/edit"
+              element={<EditContact />}
+              action={ editAction }
+              loader={ contactLoader }
+            />
+            <Route
+              path="cam"
+              element={<Cam />}
+            />
+            <Route
+              path="contacts/:contactId/destroy"
+              action={ destroyAction }
+            />
+          </Route>
         </Route>
       </Route>
     </Route>
