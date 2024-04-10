@@ -12,20 +12,19 @@ import {
   TContact,
   UpdateContact,
 } from "./contacts";
+import { generateClient } from 'aws-amplify/api';
+import { getPlace } from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+import { Place } from '../../API';
 
 export const loader:LoaderFunction = async ({params}) => {
-  console.debug('@editLoader');
-
   const contactId = params.contactId as string;
   console.debug('@Contact:'+JSON.stringify(contactId));
 
   if(!contactId) {
     throw new Error("contact id not defined.");
   }
-
-  const id:string = contactId as string;
-
-  return getContact(id);
+  return contactId;
 };
 
 export const action:ActionFunction = async ({ request, params }) => {
@@ -54,42 +53,40 @@ export const action:ActionFunction = async ({ request, params }) => {
   return UpdateContact(contact);
 };
 
-//export async function fetchData(): Promise<TContact> {
-//  const id = '';
-//
-//}
-
 const PlaceComponent: React.FC = () => {
+  console.debug('@loader');
+  const [place, setPlace] = useState<Place | null>(null);
 
-  const contact = useLoaderData() as TContact;
+  const placeid = useLoaderData() as string;
+
+  useEffect(() => {
+    const fetchPlace = async () => {
+      try {
+        const client = generateClient();
+        const placeData = await client.graphql({ 
+          query: getPlace,
+          variables: {
+            id: placeid,
+          }
+        });
+        const place = placeData.data.getPlace as Place;
+        setPlace(place);
+      } catch (err) {
+        console.error('error fetching Place', err);
+      }
+    };
+
+    fetchPlace();
+  }, []);
 
   return (
-    <div id="contact">
-      <div>
-        <img alt="avatar"
-          key={contact.avatar}
-          src={contact.avatar}
-        />
-      </div>
-
+    <div id="place">
       <div>
         <h1>
-          {contact.first} {contact.last}
-          <Favorite contact={contact} />
+          {place?.name}
         </h1>
 
-        {contact.twitter && (
-          <p>
-            <a
-              target="_blank" rel="noreferrer"
-              href={`https://twitter.com/${contact.twitter}`}
-            >
-              {contact.twitter}
-            </a>
-          </p>
-        )}
-
-        {contact.notes && <p>{contact.notes}</p>}
+        {place?.comment && <p>{place?.comment}</p>}
 
         <div>
           <Form action="edit">
