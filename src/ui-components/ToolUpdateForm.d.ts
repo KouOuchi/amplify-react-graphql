@@ -6,7 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { Tool } from "../API.tsx";
+import { Tool } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -32,8 +32,8 @@ export declare type ToolUpdateFormInputValues = {
     part_name?: string;
     part_code?: string;
     count?: number;
-    life_hour?: string;
-    life_current?: string;
+    life_hour_spec?: number;
+    life_hour_current?: number;
     comment?: string;
 };
 export declare type ToolUpdateFormValidationValues = {
@@ -46,8 +46,8 @@ export declare type ToolUpdateFormValidationValues = {
     part_name?: ValidationFunction<string>;
     part_code?: ValidationFunction<string>;
     count?: ValidationFunction<number>;
-    life_hour?: ValidationFunction<string>;
-    life_current?: ValidationFunction<string>;
+    life_hour_spec?: ValidationFunction<number>;
+    life_hour_current?: ValidationFunction<number>;
     comment?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -62,8 +62,8 @@ export declare type ToolUpdateFormOverridesProps = {
     part_name?: PrimitiveOverrideProps<TextFieldProps>;
     part_code?: PrimitiveOverrideProps<TextFieldProps>;
     count?: PrimitiveOverrideProps<TextFieldProps>;
-    life_hour?: PrimitiveOverrideProps<TextFieldProps>;
-    life_current?: PrimitiveOverrideProps<TextFieldProps>;
+    life_hour_spec?: PrimitiveOverrideProps<TextFieldProps>;
+    life_hour_current?: PrimitiveOverrideProps<TextFieldProps>;
     comment?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ToolUpdateFormProps = React.PropsWithChildren<{

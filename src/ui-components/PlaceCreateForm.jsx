@@ -15,7 +15,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createPlace } from "../../mutations";
+import { createPlace } from "../graphql/mutations";
 const client = generateClient();
 export default function PlaceCreateForm(props) {
   const {

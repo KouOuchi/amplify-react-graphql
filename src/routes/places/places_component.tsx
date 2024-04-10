@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
          Link,
@@ -9,32 +10,42 @@ import { Outlet,
          useNavigation,
          redirect, } from "react-router-dom";
 import { getContacts, createContact,TContact } from "./contacts";
-
+import { getCurrentUser } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
 import { listPlaces } from '../../graphql/queries';
-
-export const loader:LoaderFunction = () => {
-  console.debug('@topLoader');
-
-//  console.debug('@API');
-//  const client = generateClient();
-//  const result = client.graphql({ query: listPlaces });
-//  console.debug('@API data:'+JSON.stringify(result));
-
-  return getContacts('');
-};
+import * as mutations from '../../graphql/mutations';
+import { Place } from '../../API';
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@create new action #1');
   const contact = await createContact();
   console.debug('@create new action #2:'+`contacts/${contact.id}/edit`);
-  return redirect(`contacts/${contact.id}/edit`);
+
+  console.debug('@API creation start.');
+
+  return redirect(`place/${contact.id}/edit`);
 };
 
-export default function Places() {
-  const contacts = useLoaderData() as TContact[];
+const PlacesComponent: React.FC = () => {
+  const [places, setPlaces] = useState<Array<Place | null >>([]);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const client = generateClient();
+        const placesData = await client.graphql({ query: listPlaces });
+        const placesList = placesData.data.listPlaces.items as Array<Place>;
+        setPlaces(placesList);
+      } catch (err) {
+        console.error('error fetching Places', err);
+      }
+    };
+
+    fetchPlaces();
+  }, []);
+
   const navigation = useNavigation();
-  console.debug('@Top:'+JSON.stringify(contacts));
+  //console.debug('@Top:'+JSON.stringify(contacts));
 
   return (
     <>
@@ -66,11 +77,11 @@ export default function Places() {
         </div>
 
         <nav>
-          {contacts.length > 0 ? (
+          { places.length > 0 ? (
             <ul>
-              {contacts.map((contact:TContact) => (
-                <li key={contact.id}>
-                  <NavLink to={`contacts/${contact.id}`}
+              { places.map((place) => (
+                <li key={place?.id}>
+                  <NavLink to={`place/${place?.id}`}
                     className={({ isActive, isPending }) =>
                       isActive
                       ? "active"
@@ -79,8 +90,8 @@ export default function Places() {
                       : ""
                     }
                   >
-                    {contact.first} {contact.last}
-                    {contact.favorite && <span>★</span>}
+                    {place?.name}
+                    {place?.fovorite && <span>★</span>}
                   </NavLink>
                 </li>
               ))}
@@ -89,7 +100,8 @@ export default function Places() {
             <p>
               <i>No contacts</i>
             </p>
-          )}
+          )
+          }
         </nav>
       </div>
 
@@ -103,4 +115,6 @@ export default function Places() {
 
     </>
   );
-}
+};
+
+export default PlacesComponent;

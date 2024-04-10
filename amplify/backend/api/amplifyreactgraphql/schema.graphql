@@ -4,9 +4,12 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONL
 
 type Place
   @model 
-  @auth( rules: [{ allow: owner }] )
+  @auth(rules: [
+    { allow: owner },
+    { allow: private },
+  ])
 {
-  id: ID!
+  id: ID! @primaryKey
   userID: ID!
   name: String
   fovorite: Boolean
@@ -16,9 +19,13 @@ type Place
 
 type Tool 
   @model 
-  @auth( rules: [{ allow: owner }] )
+  @auth(rules: [
+    { allow: owner },
+    { allow: private },
+  ])
 {
-  id: ID!
+  id: ID! @primaryKey
+  place: Place @belongsTo
 
   D: Float
   H: Float
@@ -29,9 +36,8 @@ type Tool
   part_name: String
   part_code: String
   count: Int
-
-  life_hour: String
-  life_current: String 
+  life_hour_spec: Int
+  life_hour_current: Int
 
   comment: String
 }

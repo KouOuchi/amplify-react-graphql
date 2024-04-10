@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "./src/src/API";
 type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationInput: InputType;
   __generatedMutationOutput: OutputType;
@@ -13,7 +13,7 @@ export const createPlace = /* GraphQL */ `mutation CreatePlace(
   $condition: ModelPlaceConditionInput
 ) {
   createPlace(input: $input, condition: $condition) {
-    id
+    place_id
     userID
     name
     fovorite
@@ -24,7 +24,6 @@ export const createPlace = /* GraphQL */ `mutation CreatePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -37,7 +36,7 @@ export const updatePlace = /* GraphQL */ `mutation UpdatePlace(
   $condition: ModelPlaceConditionInput
 ) {
   updatePlace(input: $input, condition: $condition) {
-    id
+    place_id
     userID
     name
     fovorite
@@ -48,7 +47,6 @@ export const updatePlace = /* GraphQL */ `mutation UpdatePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -61,7 +59,7 @@ export const deletePlace = /* GraphQL */ `mutation DeletePlace(
   $condition: ModelPlaceConditionInput
 ) {
   deletePlace(input: $input, condition: $condition) {
-    id
+    place_id
     userID
     name
     fovorite
@@ -72,7 +70,6 @@ export const deletePlace = /* GraphQL */ `mutation DeletePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -85,7 +82,17 @@ export const createTool = /* GraphQL */ `mutation CreateTool(
   $condition: ModelToolConditionInput
 ) {
   createTool(input: $input, condition: $condition) {
-    id
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -95,13 +102,12 @@ export const createTool = /* GraphQL */ `mutation CreateTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }
@@ -114,7 +120,17 @@ export const updateTool = /* GraphQL */ `mutation UpdateTool(
   $condition: ModelToolConditionInput
 ) {
   updateTool(input: $input, condition: $condition) {
-    id
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -124,13 +140,12 @@ export const updateTool = /* GraphQL */ `mutation UpdateTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }
@@ -143,7 +158,17 @@ export const deleteTool = /* GraphQL */ `mutation DeleteTool(
   $condition: ModelToolConditionInput
 ) {
   deleteTool(input: $input, condition: $condition) {
-    id
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -153,13 +178,12 @@ export const deleteTool = /* GraphQL */ `mutation DeleteTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }

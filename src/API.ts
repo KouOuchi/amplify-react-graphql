@@ -3,7 +3,7 @@
 //  This file was automatically generated and should not be edited.
 
 export type CreatePlaceInput = {
-  place_id: string,
+  id?: string | null,
   userID: string,
   name?: string | null,
   fovorite?: boolean | null,
@@ -20,6 +20,7 @@ export type ModelPlaceConditionInput = {
   not?: ModelPlaceConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelIDInput = {
@@ -87,7 +88,7 @@ export type ModelBooleanInput = {
 
 export type Place = {
   __typename: "Place",
-  place_id: string,
+  id: string,
   userID: string,
   name?: string | null,
   fovorite?: boolean | null,
@@ -95,6 +96,7 @@ export type Place = {
   tools?: ModelToolConnection | null,
   createdAt: string,
   updatedAt: string,
+  owner?: string | null,
 };
 
 export type ModelToolConnection = {
@@ -105,7 +107,7 @@ export type ModelToolConnection = {
 
 export type Tool = {
   __typename: "Tool",
-  tool_id: string,
+  id: string,
   place?: Place | null,
   D?: number | null,
   H?: number | null,
@@ -121,11 +123,12 @@ export type Tool = {
   comment?: string | null,
   createdAt: string,
   updatedAt: string,
-  placeToolsPlace_id?: string | null,
+  placeToolsId?: string | null,
+  owner?: string | null,
 };
 
 export type UpdatePlaceInput = {
-  place_id: string,
+  id: string,
   userID?: string | null,
   name?: string | null,
   fovorite?: boolean | null,
@@ -133,11 +136,11 @@ export type UpdatePlaceInput = {
 };
 
 export type DeletePlaceInput = {
-  place_id: string,
+  id: string,
 };
 
 export type CreateToolInput = {
-  tool_id: string,
+  id?: string | null,
   D?: number | null,
   H?: number | null,
   R?: number | null,
@@ -150,7 +153,7 @@ export type CreateToolInput = {
   life_hour_spec?: number | null,
   life_hour_current?: number | null,
   comment?: string | null,
-  placeToolsPlace_id?: string | null,
+  placeToolsId?: string | null,
 };
 
 export type ModelToolConditionInput = {
@@ -171,7 +174,8 @@ export type ModelToolConditionInput = {
   not?: ModelToolConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  placeToolsPlace_id?: ModelIDInput | null,
+  placeToolsId?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelFloatInput = {
@@ -199,7 +203,7 @@ export type ModelIntInput = {
 };
 
 export type UpdateToolInput = {
-  tool_id: string,
+  id: string,
   D?: number | null,
   H?: number | null,
   R?: number | null,
@@ -212,25 +216,25 @@ export type UpdateToolInput = {
   life_hour_spec?: number | null,
   life_hour_current?: number | null,
   comment?: string | null,
-  placeToolsPlace_id?: string | null,
+  placeToolsId?: string | null,
 };
 
 export type DeleteToolInput = {
-  tool_id: string,
+  id: string,
 };
 
 export type ModelPlaceFilterInput = {
-  place_id?: ModelIDInput | null,
+  id?: ModelIDInput | null,
   userID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   fovorite?: ModelBooleanInput | null,
   comment?: ModelStringInput | null,
-  id?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelPlaceFilterInput | null > | null,
   or?: Array< ModelPlaceFilterInput | null > | null,
   not?: ModelPlaceFilterInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export enum ModelSortDirection {
@@ -246,7 +250,7 @@ export type ModelPlaceConnection = {
 };
 
 export type ModelToolFilterInput = {
-  tool_id?: ModelIDInput | null,
+  id?: ModelIDInput | null,
   D?: ModelFloatInput | null,
   H?: ModelFloatInput | null,
   R?: ModelFloatInput | null,
@@ -259,27 +263,27 @@ export type ModelToolFilterInput = {
   life_hour_spec?: ModelIntInput | null,
   life_hour_current?: ModelIntInput | null,
   comment?: ModelStringInput | null,
-  id?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelToolFilterInput | null > | null,
   or?: Array< ModelToolFilterInput | null > | null,
   not?: ModelToolFilterInput | null,
-  placeToolsPlace_id?: ModelIDInput | null,
+  placeToolsId?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionPlaceFilterInput = {
-  place_id?: ModelSubscriptionIDInput | null,
+  id?: ModelSubscriptionIDInput | null,
   userID?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
   fovorite?: ModelSubscriptionBooleanInput | null,
   comment?: ModelSubscriptionStringInput | null,
-  id?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionPlaceFilterInput | null > | null,
   or?: Array< ModelSubscriptionPlaceFilterInput | null > | null,
-  placeToolsPlace_id?: ModelSubscriptionIDInput | null,
+  placeToolsId?: ModelSubscriptionIDInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -318,7 +322,7 @@ export type ModelSubscriptionBooleanInput = {
 };
 
 export type ModelSubscriptionToolFilterInput = {
-  tool_id?: ModelSubscriptionIDInput | null,
+  id?: ModelSubscriptionIDInput | null,
   D?: ModelSubscriptionFloatInput | null,
   H?: ModelSubscriptionFloatInput | null,
   R?: ModelSubscriptionFloatInput | null,
@@ -331,11 +335,11 @@ export type ModelSubscriptionToolFilterInput = {
   life_hour_spec?: ModelSubscriptionIntInput | null,
   life_hour_current?: ModelSubscriptionIntInput | null,
   comment?: ModelSubscriptionStringInput | null,
-  id?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionToolFilterInput | null > | null,
   or?: Array< ModelSubscriptionToolFilterInput | null > | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionFloatInput = {
@@ -370,7 +374,7 @@ export type CreatePlaceMutationVariables = {
 export type CreatePlaceMutation = {
   createPlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -379,7 +383,7 @@ export type CreatePlaceMutation = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -394,12 +398,14 @@ export type CreatePlaceMutation = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -411,7 +417,7 @@ export type UpdatePlaceMutationVariables = {
 export type UpdatePlaceMutation = {
   updatePlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -420,7 +426,7 @@ export type UpdatePlaceMutation = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -435,12 +441,14 @@ export type UpdatePlaceMutation = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -452,7 +460,7 @@ export type DeletePlaceMutationVariables = {
 export type DeletePlaceMutation = {
   deletePlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -461,7 +469,7 @@ export type DeletePlaceMutation = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -476,12 +484,14 @@ export type DeletePlaceMutation = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -493,10 +503,10 @@ export type CreateToolMutationVariables = {
 export type CreateToolMutation = {
   createTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -507,6 +517,7 @@ export type CreateToolMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -522,7 +533,8 @@ export type CreateToolMutation = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -534,10 +546,10 @@ export type UpdateToolMutationVariables = {
 export type UpdateToolMutation = {
   updateTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -548,6 +560,7 @@ export type UpdateToolMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -563,7 +576,8 @@ export type UpdateToolMutation = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -575,10 +589,10 @@ export type DeleteToolMutationVariables = {
 export type DeleteToolMutation = {
   deleteTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -589,6 +603,7 @@ export type DeleteToolMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -604,18 +619,19 @@ export type DeleteToolMutation = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
 export type GetPlaceQueryVariables = {
-  place_id: string,
+  id: string,
 };
 
 export type GetPlaceQuery = {
   getPlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -624,7 +640,7 @@ export type GetPlaceQuery = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -639,17 +655,19 @@ export type GetPlaceQuery = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type ListPlacesQueryVariables = {
-  place_id?: string | null,
+  id?: string | null,
   filter?: ModelPlaceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -661,7 +679,7 @@ export type ListPlacesQuery = {
     __typename: "ModelPlaceConnection",
     items:  Array< {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -672,22 +690,23 @@ export type ListPlacesQuery = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
 export type GetToolQueryVariables = {
-  tool_id: string,
+  id: string,
 };
 
 export type GetToolQuery = {
   getTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -698,6 +717,7 @@ export type GetToolQuery = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -713,12 +733,13 @@ export type GetToolQuery = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
 export type ListToolsQueryVariables = {
-  tool_id?: string | null,
+  id?: string | null,
   filter?: ModelToolFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -730,16 +751,17 @@ export type ListToolsQuery = {
     __typename: "ModelToolConnection",
     items:  Array< {
       __typename: "Tool",
-      tool_id: string,
+      id: string,
       place?:  {
         __typename: "Place",
-        place_id: string,
+        id: string,
         userID: string,
         name?: string | null,
         fovorite?: boolean | null,
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null,
       D?: number | null,
       H?: number | null,
@@ -755,7 +777,8 @@ export type ListToolsQuery = {
       comment?: string | null,
       createdAt: string,
       updatedAt: string,
-      placeToolsPlace_id?: string | null,
+      placeToolsId?: string | null,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -763,12 +786,13 @@ export type ListToolsQuery = {
 
 export type OnCreatePlaceSubscriptionVariables = {
   filter?: ModelSubscriptionPlaceFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnCreatePlaceSubscription = {
   onCreatePlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -777,7 +801,7 @@ export type OnCreatePlaceSubscription = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -792,23 +816,26 @@ export type OnCreatePlaceSubscription = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type OnUpdatePlaceSubscriptionVariables = {
   filter?: ModelSubscriptionPlaceFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnUpdatePlaceSubscription = {
   onUpdatePlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -817,7 +844,7 @@ export type OnUpdatePlaceSubscription = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -832,23 +859,26 @@ export type OnUpdatePlaceSubscription = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type OnDeletePlaceSubscriptionVariables = {
   filter?: ModelSubscriptionPlaceFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnDeletePlaceSubscription = {
   onDeletePlace?:  {
     __typename: "Place",
-    place_id: string,
+    id: string,
     userID: string,
     name?: string | null,
     fovorite?: boolean | null,
@@ -857,7 +887,7 @@ export type OnDeletePlaceSubscription = {
       __typename: "ModelToolConnection",
       items:  Array< {
         __typename: "Tool",
-        tool_id: string,
+        id: string,
         D?: number | null,
         H?: number | null,
         R?: number | null,
@@ -872,26 +902,29 @@ export type OnDeletePlaceSubscription = {
         comment?: string | null,
         createdAt: string,
         updatedAt: string,
-        placeToolsPlace_id?: string | null,
+        placeToolsId?: string | null,
+        owner?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type OnCreateToolSubscriptionVariables = {
   filter?: ModelSubscriptionToolFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnCreateToolSubscription = {
   onCreateTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -902,6 +935,7 @@ export type OnCreateToolSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -917,21 +951,23 @@ export type OnCreateToolSubscription = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
 export type OnUpdateToolSubscriptionVariables = {
   filter?: ModelSubscriptionToolFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnUpdateToolSubscription = {
   onUpdateTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -942,6 +978,7 @@ export type OnUpdateToolSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -957,21 +994,23 @@ export type OnUpdateToolSubscription = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
 export type OnDeleteToolSubscriptionVariables = {
   filter?: ModelSubscriptionToolFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnDeleteToolSubscription = {
   onDeleteTool?:  {
     __typename: "Tool",
-    tool_id: string,
+    id: string,
     place?:  {
       __typename: "Place",
-      place_id: string,
+      id: string,
       userID: string,
       name?: string | null,
       fovorite?: boolean | null,
@@ -982,6 +1021,7 @@ export type OnDeleteToolSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null,
     D?: number | null,
     H?: number | null,
@@ -997,6 +1037,7 @@ export type OnDeleteToolSubscription = {
     comment?: string | null,
     createdAt: string,
     updatedAt: string,
-    placeToolsPlace_id?: string | null,
+    placeToolsId?: string | null,
+    owner?: string | null,
   } | null,
 };

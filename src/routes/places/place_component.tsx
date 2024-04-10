@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import { 
   Form, 
   useLoaderData, 
   LoaderFunction, 
   ActionFunction,
   useFetcher,
+  useParams,
 } from "react-router-dom";
 import { 
   getContact, 
@@ -57,7 +59,8 @@ export const action:ActionFunction = async ({ request, params }) => {
 //
 //}
 
-export default function Contact() {
+const PlaceComponent: React.FC = () => {
+
   const contact = useLoaderData() as TContact;
 
   return (
@@ -140,4 +143,6 @@ function Favorite({contact}: ContactProps) {
       </button>
     </fetcher.Form>
   );
-}
+};
+
+export default PlaceComponent;

@@ -13,14 +13,14 @@ export const createPlace = /* GraphQL */ `mutation CreatePlace(
   $condition: ModelPlaceConditionInput
 ) {
   createPlace(input: $input, condition: $condition) {
-    place_id
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -35,7 +35,8 @@ export const createPlace = /* GraphQL */ `mutation CreatePlace(
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -43,6 +44,7 @@ export const createPlace = /* GraphQL */ `mutation CreatePlace(
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -55,14 +57,14 @@ export const updatePlace = /* GraphQL */ `mutation UpdatePlace(
   $condition: ModelPlaceConditionInput
 ) {
   updatePlace(input: $input, condition: $condition) {
-    place_id
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -77,7 +79,8 @@ export const updatePlace = /* GraphQL */ `mutation UpdatePlace(
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -85,6 +88,7 @@ export const updatePlace = /* GraphQL */ `mutation UpdatePlace(
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -97,14 +101,14 @@ export const deletePlace = /* GraphQL */ `mutation DeletePlace(
   $condition: ModelPlaceConditionInput
 ) {
   deletePlace(input: $input, condition: $condition) {
-    place_id
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -119,7 +123,8 @@ export const deletePlace = /* GraphQL */ `mutation DeletePlace(
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -127,6 +132,7 @@ export const deletePlace = /* GraphQL */ `mutation DeletePlace(
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -139,9 +145,9 @@ export const createTool = /* GraphQL */ `mutation CreateTool(
   $condition: ModelToolConditionInput
 ) {
   createTool(input: $input, condition: $condition) {
-    tool_id
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -152,6 +158,7 @@ export const createTool = /* GraphQL */ `mutation CreateTool(
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -168,7 +175,8 @@ export const createTool = /* GraphQL */ `mutation CreateTool(
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }
@@ -181,9 +189,9 @@ export const updateTool = /* GraphQL */ `mutation UpdateTool(
   $condition: ModelToolConditionInput
 ) {
   updateTool(input: $input, condition: $condition) {
-    tool_id
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -194,6 +202,7 @@ export const updateTool = /* GraphQL */ `mutation UpdateTool(
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -210,7 +219,8 @@ export const updateTool = /* GraphQL */ `mutation UpdateTool(
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }
@@ -223,9 +233,9 @@ export const deleteTool = /* GraphQL */ `mutation DeleteTool(
   $condition: ModelToolConditionInput
 ) {
   deleteTool(input: $input, condition: $condition) {
-    tool_id
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -236,6 +246,7 @@ export const deleteTool = /* GraphQL */ `mutation DeleteTool(
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -252,7 +263,8 @@ export const deleteTool = /* GraphQL */ `mutation DeleteTool(
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }

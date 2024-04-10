@@ -16,14 +16,14 @@ interface RouteError {
 
 export default function ErrorPage() {
   const error = useRouteError() as RouteError;
-  console.debug(error);
+  const str = error ? JSON.stringify(error) : ".";
+  console.log(str);
+
   return (
     <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.error.message}</i>
-      </p>
+      <h1>エラーが発生しました</h1>
+      <p>お手数をかけますが、管理者までお問い合わせください。</p>
+      <p>{str}</p>
     </div>
   );
 }

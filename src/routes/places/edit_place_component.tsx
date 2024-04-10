@@ -1,3 +1,4 @@
+import React from 'react';
 import { 
   Form,
   redirect,
@@ -29,10 +30,10 @@ export const action:ActionFunction = async ({ request, params }) => {
   
   await UpdateContact(updated);
 
-  return redirect(`../contacts/${params.contactId}`);
+  return redirect(`../place/${params.contactId}`);
 };
 
-export default function EditContact() {
+const EditPlaceComponent: React.FC = () => {
   const navigate = useNavigate();
 
 
@@ -97,4 +98,6 @@ export default function EditContact() {
       </p>
     </Form>
   );
-}
+};
+
+export default EditPlaceComponent;

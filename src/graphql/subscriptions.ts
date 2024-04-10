@@ -8,16 +8,19 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace($filter: ModelSubscriptionPlaceFilterInput) {
-  onCreatePlace(filter: $filter) {
-    place_id
+export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace(
+  $filter: ModelSubscriptionPlaceFilterInput
+  $owner: String
+) {
+  onCreatePlace(filter: $filter, owner: $owner) {
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -32,7 +35,8 @@ export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace($filter: 
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -40,6 +44,7 @@ export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace($filter: 
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -47,16 +52,19 @@ export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace($filter: 
   APITypes.OnCreatePlaceSubscriptionVariables,
   APITypes.OnCreatePlaceSubscription
 >;
-export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace($filter: ModelSubscriptionPlaceFilterInput) {
-  onUpdatePlace(filter: $filter) {
-    place_id
+export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace(
+  $filter: ModelSubscriptionPlaceFilterInput
+  $owner: String
+) {
+  onUpdatePlace(filter: $filter, owner: $owner) {
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -71,7 +79,8 @@ export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace($filter: 
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -79,6 +88,7 @@ export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace($filter: 
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -86,16 +96,19 @@ export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace($filter: 
   APITypes.OnUpdatePlaceSubscriptionVariables,
   APITypes.OnUpdatePlaceSubscription
 >;
-export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace($filter: ModelSubscriptionPlaceFilterInput) {
-  onDeletePlace(filter: $filter) {
-    place_id
+export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace(
+  $filter: ModelSubscriptionPlaceFilterInput
+  $owner: String
+) {
+  onDeletePlace(filter: $filter, owner: $owner) {
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -110,7 +123,8 @@ export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace($filter: 
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -118,6 +132,7 @@ export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace($filter: 
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
@@ -125,11 +140,14 @@ export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace($filter: 
   APITypes.OnDeletePlaceSubscriptionVariables,
   APITypes.OnDeletePlaceSubscription
 >;
-export const onCreateTool = /* GraphQL */ `subscription OnCreateTool($filter: ModelSubscriptionToolFilterInput) {
-  onCreateTool(filter: $filter) {
-    tool_id
+export const onCreateTool = /* GraphQL */ `subscription OnCreateTool(
+  $filter: ModelSubscriptionToolFilterInput
+  $owner: String
+) {
+  onCreateTool(filter: $filter, owner: $owner) {
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -140,6 +158,7 @@ export const onCreateTool = /* GraphQL */ `subscription OnCreateTool($filter: Mo
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -156,7 +175,8 @@ export const onCreateTool = /* GraphQL */ `subscription OnCreateTool($filter: Mo
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }
@@ -164,11 +184,14 @@ export const onCreateTool = /* GraphQL */ `subscription OnCreateTool($filter: Mo
   APITypes.OnCreateToolSubscriptionVariables,
   APITypes.OnCreateToolSubscription
 >;
-export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool($filter: ModelSubscriptionToolFilterInput) {
-  onUpdateTool(filter: $filter) {
-    tool_id
+export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool(
+  $filter: ModelSubscriptionToolFilterInput
+  $owner: String
+) {
+  onUpdateTool(filter: $filter, owner: $owner) {
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -179,6 +202,7 @@ export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool($filter: Mo
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -195,7 +219,8 @@ export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool($filter: Mo
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }
@@ -203,11 +228,14 @@ export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool($filter: Mo
   APITypes.OnUpdateToolSubscriptionVariables,
   APITypes.OnUpdateToolSubscription
 >;
-export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool($filter: ModelSubscriptionToolFilterInput) {
-  onDeleteTool(filter: $filter) {
-    tool_id
+export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool(
+  $filter: ModelSubscriptionToolFilterInput
+  $owner: String
+) {
+  onDeleteTool(filter: $filter, owner: $owner) {
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -218,6 +246,7 @@ export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool($filter: Mo
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -234,7 +263,8 @@ export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool($filter: Mo
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }

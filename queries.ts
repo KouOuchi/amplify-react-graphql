@@ -2,15 +2,15 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "./src/src/API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
 };
 
-export const getPlace = /* GraphQL */ `query GetPlace($id: ID!) {
-  getPlace(id: $id) {
-    id
+export const getPlace = /* GraphQL */ `query GetPlace($place_id: ID!) {
+  getPlace(place_id: $place_id) {
+    place_id
     userID
     name
     fovorite
@@ -21,26 +21,32 @@ export const getPlace = /* GraphQL */ `query GetPlace($id: ID!) {
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.GetPlaceQueryVariables, APITypes.GetPlaceQuery>;
 export const listPlaces = /* GraphQL */ `query ListPlaces(
+  $place_id: ID
   $filter: ModelPlaceFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listPlaces(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listPlaces(
+    place_id: $place_id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
-      id
+      place_id
       userID
       name
       fovorite
       comment
       createdAt
       updatedAt
-      owner
       __typename
     }
     nextToken
@@ -51,9 +57,19 @@ export const listPlaces = /* GraphQL */ `query ListPlaces(
   APITypes.ListPlacesQueryVariables,
   APITypes.ListPlacesQuery
 >;
-export const getTool = /* GraphQL */ `query GetTool($id: ID!) {
-  getTool(id: $id) {
-    id
+export const getTool = /* GraphQL */ `query GetTool($tool_id: ID!) {
+  getTool(tool_id: $tool_id) {
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -63,25 +79,32 @@ export const getTool = /* GraphQL */ `query GetTool($id: ID!) {
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.GetToolQueryVariables, APITypes.GetToolQuery>;
 export const listTools = /* GraphQL */ `query ListTools(
+  $tool_id: ID
   $filter: ModelToolFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listTools(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listTools(
+    tool_id: $tool_id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
-      id
+      tool_id
       D
       H
       R
@@ -91,13 +114,12 @@ export const listTools = /* GraphQL */ `query ListTools(
       part_name
       part_code
       count
-      life_hour
-      life_current
+      life_hour_spec
+      life_hour_current
       comment
       createdAt
       updatedAt
-      placeToolsId
-      owner
+      placeToolsPlace_id
       __typename
     }
     nextToken

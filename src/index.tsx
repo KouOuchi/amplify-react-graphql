@@ -15,25 +15,24 @@ import ErrorPage, {
 } from "./error-page";
 
 // places routes
-import Contact, {
-  loader as contactLoader,
-  action as contactAction,
-} from "./routes/places/contact";
-import Main, {
-} from "./routes/main";
-import Places, {
-  loader as placesLoader,
+import MainComponent, {
+} from "./routes/main_component";
+import PlacesComponent, {
   action as placesAction,
-} from "./routes/places/places";
-import EditContact, {
-  action as editAction,
-} from "./routes/places/edit";
+} from "./routes/places/places_component";
+import PlaceComponent, {
+  loader as placeLoader,
+  action as placeAction,
+} from "./routes/places/place_component";
+import EditPlaceComponent, {
+  action as editPlaceAction,
+} from "./routes/places/edit_place_component";
 import Cam, { 
 } from "./routes/cam";
 import Index, {
 } from "./routes/places/index";
 import { 
-  action as destroyAction 
+  action as destroyPlaceAction 
 } from "./routes/places/destroy";
 //import './index.css';
 
@@ -55,11 +54,6 @@ import { Amplify } from 'aws-amplify'; // checked 2024-4-5
 import { generateClient } from "aws-amplify/api"; // checked 2024-4-5
 //import { type AuthUser } from "aws-amplify/auth";
 import { useAuthenticator } from '@aws-amplify/ui-react';
-// NOTE: useAuthenticator or withAuthenticator???
-//import {
-//  withAuthenticator,
-//  WithAuthenticatorProps,
-//} from '@aws-amplify/ui-react'; // checked 2024-4-5
 
 import { Authenticator } from '@aws-amplify/ui-react';
 import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
@@ -94,7 +88,7 @@ const router = createBrowserRouter(
           element={
             <Authenticator loginMechanisms={['username']} variation="modal" initialState="signUp">
                                            {({ signOut, user }) => (
-                                             <Main />
+                                             <MainComponent />
                                            )}
             </Authenticator>
           }
@@ -102,25 +96,24 @@ const router = createBrowserRouter(
         >
           <Route
             path= "places"
-            element={<Places />}
+            element={<PlacesComponent />}
             action={ placesAction }
-            loader={ placesLoader }
           >
             <Route
               index={true}
               element={<Index />}
             />
             <Route 
-              path="contacts/:contactId"
-              element={<Contact />}
-              action={ contactAction }
-              loader={ contactLoader }
+              path="place/:contactId"
+              element={<PlaceComponent />}
+              action={ placeAction }
+              loader={ placeLoader }
             />
             <Route
-              path="contacts/:contactId/edit"
-              element={<EditContact />}
-              action={ editAction }
-              loader={ contactLoader }
+              path="place/:contactId/edit"
+              element={<EditPlaceComponent />}
+              action={ editPlaceAction }
+              loader={ placeLoader }
             />
             <Route
               path="cam"
@@ -128,7 +121,7 @@ const router = createBrowserRouter(
             />
             <Route
               path="contacts/:contactId/destroy"
-              action={ destroyAction }
+              action={ destroyPlaceAction }
             />
           </Route>
           <Route

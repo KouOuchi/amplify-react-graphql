@@ -4,14 +4,17 @@
     "apiName": "amplifyreactgraphql",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authamplifyreactgraphql9b1c9980"
     },
     "additionalAuthTypes": [
       {
-        "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authamplifyreactgraphql9b1c9980"
+        "mode": "API_KEY",
+        "expirationTime": 7,
+        "apiKeyExpirationDate": "2024-04-17T09:23:10.208Z",
+        "keyDescription": ""
       }
-    ]
+    ],
+    "conflictResolution": {}
   }
 }

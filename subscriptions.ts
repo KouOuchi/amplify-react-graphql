@@ -2,18 +2,15 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "./src/src/API";
 type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionInput: InputType;
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace(
-  $filter: ModelSubscriptionPlaceFilterInput
-  $owner: String
-) {
-  onCreatePlace(filter: $filter, owner: $owner) {
-    id
+export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace($filter: ModelSubscriptionPlaceFilterInput) {
+  onCreatePlace(filter: $filter) {
+    place_id
     userID
     name
     fovorite
@@ -24,7 +21,6 @@ export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -32,12 +28,9 @@ export const onCreatePlace = /* GraphQL */ `subscription OnCreatePlace(
   APITypes.OnCreatePlaceSubscriptionVariables,
   APITypes.OnCreatePlaceSubscription
 >;
-export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace(
-  $filter: ModelSubscriptionPlaceFilterInput
-  $owner: String
-) {
-  onUpdatePlace(filter: $filter, owner: $owner) {
-    id
+export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace($filter: ModelSubscriptionPlaceFilterInput) {
+  onUpdatePlace(filter: $filter) {
+    place_id
     userID
     name
     fovorite
@@ -48,7 +41,6 @@ export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -56,12 +48,9 @@ export const onUpdatePlace = /* GraphQL */ `subscription OnUpdatePlace(
   APITypes.OnUpdatePlaceSubscriptionVariables,
   APITypes.OnUpdatePlaceSubscription
 >;
-export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace(
-  $filter: ModelSubscriptionPlaceFilterInput
-  $owner: String
-) {
-  onDeletePlace(filter: $filter, owner: $owner) {
-    id
+export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace($filter: ModelSubscriptionPlaceFilterInput) {
+  onDeletePlace(filter: $filter) {
+    place_id
     userID
     name
     fovorite
@@ -72,7 +61,6 @@ export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace(
     }
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -80,12 +68,19 @@ export const onDeletePlace = /* GraphQL */ `subscription OnDeletePlace(
   APITypes.OnDeletePlaceSubscriptionVariables,
   APITypes.OnDeletePlaceSubscription
 >;
-export const onCreateTool = /* GraphQL */ `subscription OnCreateTool(
-  $filter: ModelSubscriptionToolFilterInput
-  $owner: String
-) {
-  onCreateTool(filter: $filter, owner: $owner) {
-    id
+export const onCreateTool = /* GraphQL */ `subscription OnCreateTool($filter: ModelSubscriptionToolFilterInput) {
+  onCreateTool(filter: $filter) {
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -95,13 +90,12 @@ export const onCreateTool = /* GraphQL */ `subscription OnCreateTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }
@@ -109,12 +103,19 @@ export const onCreateTool = /* GraphQL */ `subscription OnCreateTool(
   APITypes.OnCreateToolSubscriptionVariables,
   APITypes.OnCreateToolSubscription
 >;
-export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool(
-  $filter: ModelSubscriptionToolFilterInput
-  $owner: String
-) {
-  onUpdateTool(filter: $filter, owner: $owner) {
-    id
+export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool($filter: ModelSubscriptionToolFilterInput) {
+  onUpdateTool(filter: $filter) {
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -124,13 +125,12 @@ export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }
@@ -138,12 +138,19 @@ export const onUpdateTool = /* GraphQL */ `subscription OnUpdateTool(
   APITypes.OnUpdateToolSubscriptionVariables,
   APITypes.OnUpdateToolSubscription
 >;
-export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool(
-  $filter: ModelSubscriptionToolFilterInput
-  $owner: String
-) {
-  onDeleteTool(filter: $filter, owner: $owner) {
-    id
+export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool($filter: ModelSubscriptionToolFilterInput) {
+  onDeleteTool(filter: $filter) {
+    tool_id
+    place {
+      place_id
+      userID
+      name
+      fovorite
+      comment
+      createdAt
+      updatedAt
+      __typename
+    }
     D
     H
     R
@@ -153,13 +160,12 @@ export const onDeleteTool = /* GraphQL */ `subscription OnDeleteTool(
     part_name
     part_code
     count
-    life_hour
-    life_current
+    life_hour_spec
+    life_hour_current
     comment
     createdAt
     updatedAt
-    placeToolsId
-    owner
+    placeToolsPlace_id
     __typename
   }
 }

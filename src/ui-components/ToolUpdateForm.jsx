@@ -9,8 +9,8 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTool } from "../../queries";
-import { updateTool } from "../../mutations";
+import { getTool } from "../graphql/queries";
+import { updateTool } from "../graphql/mutations";
 const client = generateClient();
 export default function ToolUpdateForm(props) {
   const {
@@ -34,8 +34,8 @@ export default function ToolUpdateForm(props) {
     part_name: "",
     part_code: "",
     count: "",
-    life_hour: "",
-    life_current: "",
+    life_hour_spec: "",
+    life_hour_current: "",
     comment: "",
   };
   const [D, setD] = React.useState(initialValues.D);
@@ -47,9 +47,11 @@ export default function ToolUpdateForm(props) {
   const [part_name, setPart_name] = React.useState(initialValues.part_name);
   const [part_code, setPart_code] = React.useState(initialValues.part_code);
   const [count, setCount] = React.useState(initialValues.count);
-  const [life_hour, setLife_hour] = React.useState(initialValues.life_hour);
-  const [life_current, setLife_current] = React.useState(
-    initialValues.life_current
+  const [life_hour_spec, setLife_hour_spec] = React.useState(
+    initialValues.life_hour_spec
+  );
+  const [life_hour_current, setLife_hour_current] = React.useState(
+    initialValues.life_hour_current
   );
   const [comment, setComment] = React.useState(initialValues.comment);
   const [errors, setErrors] = React.useState({});
@@ -66,8 +68,8 @@ export default function ToolUpdateForm(props) {
     setPart_name(cleanValues.part_name);
     setPart_code(cleanValues.part_code);
     setCount(cleanValues.count);
-    setLife_hour(cleanValues.life_hour);
-    setLife_current(cleanValues.life_current);
+    setLife_hour_spec(cleanValues.life_hour_spec);
+    setLife_hour_current(cleanValues.life_hour_current);
     setComment(cleanValues.comment);
     setErrors({});
   };
@@ -97,8 +99,8 @@ export default function ToolUpdateForm(props) {
     part_name: [],
     part_code: [],
     count: [],
-    life_hour: [],
-    life_current: [],
+    life_hour_spec: [],
+    life_hour_current: [],
     comment: [],
   };
   const runValidationTasks = async (
@@ -136,8 +138,8 @@ export default function ToolUpdateForm(props) {
           part_name: part_name ?? null,
           part_code: part_code ?? null,
           count: count ?? null,
-          life_hour: life_hour ?? null,
-          life_current: life_current ?? null,
+          life_hour_spec: life_hour_spec ?? null,
+          life_hour_current: life_hour_current ?? null,
           comment: comment ?? null,
         };
         const validationResponses = await Promise.all(
@@ -212,8 +214,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -251,8 +253,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -290,8 +292,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -329,8 +331,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -368,8 +370,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -407,8 +409,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -442,8 +444,8 @@ export default function ToolUpdateForm(props) {
               part_name: value,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -477,8 +479,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code: value,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -516,8 +518,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count: value,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
@@ -534,12 +536,16 @@ export default function ToolUpdateForm(props) {
         {...getOverrideProps(overrides, "count")}
       ></TextField>
       <TextField
-        label="Life hour"
+        label="Life hour spec"
         isRequired={false}
         isReadOnly={false}
-        value={life_hour}
+        type="number"
+        step="any"
+        value={life_hour_spec}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
               D,
@@ -551,30 +557,34 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour: value,
-              life_current,
+              life_hour_spec: value,
+              life_hour_current,
               comment,
             };
             const result = onChange(modelFields);
-            value = result?.life_hour ?? value;
+            value = result?.life_hour_spec ?? value;
           }
-          if (errors.life_hour?.hasError) {
-            runValidationTasks("life_hour", value);
+          if (errors.life_hour_spec?.hasError) {
+            runValidationTasks("life_hour_spec", value);
           }
-          setLife_hour(value);
+          setLife_hour_spec(value);
         }}
-        onBlur={() => runValidationTasks("life_hour", life_hour)}
-        errorMessage={errors.life_hour?.errorMessage}
-        hasError={errors.life_hour?.hasError}
-        {...getOverrideProps(overrides, "life_hour")}
+        onBlur={() => runValidationTasks("life_hour_spec", life_hour_spec)}
+        errorMessage={errors.life_hour_spec?.errorMessage}
+        hasError={errors.life_hour_spec?.hasError}
+        {...getOverrideProps(overrides, "life_hour_spec")}
       ></TextField>
       <TextField
-        label="Life current"
+        label="Life hour current"
         isRequired={false}
         isReadOnly={false}
-        value={life_current}
+        type="number"
+        step="any"
+        value={life_hour_current}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
               D,
@@ -586,22 +596,24 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current: value,
+              life_hour_spec,
+              life_hour_current: value,
               comment,
             };
             const result = onChange(modelFields);
-            value = result?.life_current ?? value;
+            value = result?.life_hour_current ?? value;
           }
-          if (errors.life_current?.hasError) {
-            runValidationTasks("life_current", value);
+          if (errors.life_hour_current?.hasError) {
+            runValidationTasks("life_hour_current", value);
           }
-          setLife_current(value);
+          setLife_hour_current(value);
         }}
-        onBlur={() => runValidationTasks("life_current", life_current)}
-        errorMessage={errors.life_current?.errorMessage}
-        hasError={errors.life_current?.hasError}
-        {...getOverrideProps(overrides, "life_current")}
+        onBlur={() =>
+          runValidationTasks("life_hour_current", life_hour_current)
+        }
+        errorMessage={errors.life_hour_current?.errorMessage}
+        hasError={errors.life_hour_current?.hasError}
+        {...getOverrideProps(overrides, "life_hour_current")}
       ></TextField>
       <TextField
         label="Comment"
@@ -621,8 +633,8 @@ export default function ToolUpdateForm(props) {
               part_name,
               part_code,
               count,
-              life_hour,
-              life_current,
+              life_hour_spec,
+              life_hour_current,
               comment: value,
             };
             const result = onChange(modelFields);

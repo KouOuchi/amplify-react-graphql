@@ -8,16 +8,16 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getPlace = /* GraphQL */ `query GetPlace($place_id: ID!) {
-  getPlace(place_id: $place_id) {
-    place_id
+export const getPlace = /* GraphQL */ `query GetPlace($id: ID!) {
+  getPlace(id: $id) {
+    id
     userID
     name
     fovorite
     comment
     tools {
       items {
-        tool_id
+        id
         D
         H
         R
@@ -32,7 +32,8 @@ export const getPlace = /* GraphQL */ `query GetPlace($place_id: ID!) {
         comment
         createdAt
         updatedAt
-        placeToolsPlace_id
+        placeToolsId
+        owner
         __typename
       }
       nextToken
@@ -40,26 +41,27 @@ export const getPlace = /* GraphQL */ `query GetPlace($place_id: ID!) {
     }
     createdAt
     updatedAt
+    owner
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.GetPlaceQueryVariables, APITypes.GetPlaceQuery>;
 export const listPlaces = /* GraphQL */ `query ListPlaces(
-  $place_id: ID
+  $id: ID
   $filter: ModelPlaceFilterInput
   $limit: Int
   $nextToken: String
   $sortDirection: ModelSortDirection
 ) {
   listPlaces(
-    place_id: $place_id
+    id: $id
     filter: $filter
     limit: $limit
     nextToken: $nextToken
     sortDirection: $sortDirection
   ) {
     items {
-      place_id
+      id
       userID
       name
       fovorite
@@ -70,6 +72,7 @@ export const listPlaces = /* GraphQL */ `query ListPlaces(
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     nextToken
@@ -80,11 +83,11 @@ export const listPlaces = /* GraphQL */ `query ListPlaces(
   APITypes.ListPlacesQueryVariables,
   APITypes.ListPlacesQuery
 >;
-export const getTool = /* GraphQL */ `query GetTool($tool_id: ID!) {
-  getTool(tool_id: $tool_id) {
-    tool_id
+export const getTool = /* GraphQL */ `query GetTool($id: ID!) {
+  getTool(id: $id) {
+    id
     place {
-      place_id
+      id
       userID
       name
       fovorite
@@ -95,6 +98,7 @@ export const getTool = /* GraphQL */ `query GetTool($tool_id: ID!) {
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
     D
@@ -111,35 +115,37 @@ export const getTool = /* GraphQL */ `query GetTool($tool_id: ID!) {
     comment
     createdAt
     updatedAt
-    placeToolsPlace_id
+    placeToolsId
+    owner
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.GetToolQueryVariables, APITypes.GetToolQuery>;
 export const listTools = /* GraphQL */ `query ListTools(
-  $tool_id: ID
+  $id: ID
   $filter: ModelToolFilterInput
   $limit: Int
   $nextToken: String
   $sortDirection: ModelSortDirection
 ) {
   listTools(
-    tool_id: $tool_id
+    id: $id
     filter: $filter
     limit: $limit
     nextToken: $nextToken
     sortDirection: $sortDirection
   ) {
     items {
-      tool_id
+      id
       place {
-        place_id
+        id
         userID
         name
         fovorite
         comment
         createdAt
         updatedAt
+        owner
         __typename
       }
       D
@@ -156,7 +162,8 @@ export const listTools = /* GraphQL */ `query ListTools(
       comment
       createdAt
       updatedAt
-      placeToolsPlace_id
+      placeToolsId
+      owner
       __typename
     }
     nextToken
