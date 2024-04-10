@@ -10,8 +10,17 @@ import { Outlet,
          redirect, } from "react-router-dom";
 import { getContacts, createContact,TContact } from "./contacts";
 
+import { generateClient } from 'aws-amplify/api';
+import { listPlaces } from '../../graphql/queries';
+
 export const loader:LoaderFunction = () => {
   console.debug('@topLoader');
+
+//  console.debug('@API');
+//  const client = generateClient();
+//  const result = client.graphql({ query: listPlaces });
+//  console.debug('@API data:'+JSON.stringify(result));
+
   return getContacts('');
 };
 

@@ -67,18 +67,13 @@ import "@aws-amplify/ui-react/styles.css"; // checked 2024-4-5
 // etc
 import reportWebVitals from './reportWebVitals';
 
-// start logic
+// amplify configs
 import awsmobile from './aws-exports.js'
-Amplify.configure(awsmobile); //checed 2024-4-5
+import config from './amplifyconfiguration.json';
 
-//type AppProps = {
-//  signOut?: UseAuthenticator["signOut"]; //() => void;
-//  user?: AuthUser;
-//};
-
-//interface Props extends WithAuthenticatorProps {
-//  isPassedToWithAuthenticator: boolean;
-//}
+// start logic
+Amplify.configure(awsmobile);
+Amplify.configure(config);
 
 // build router
 const router = createBrowserRouter(
@@ -140,10 +135,6 @@ const router = createBrowserRouter(
             path= "tools"
             element={<Tools />}
           >
-            <Route
-              index={true}
-              element={<Index />}
-            />
           </Route>
         </Route>
       </Route>

@@ -75,24 +75,26 @@ export default function Tools() {
             />
           </p>
           ボール<input type="checkbox" />&nbsp;ラジアス<input type="checkbox" />&nbsp;スクエア<input type="checkbox" />
-        </form>
+    </form>
 
 
 
-          <div>
-            {isCaptureLotOpen && <CaptureLot onClose={handleCloseCaptureLot} />}
-            <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
-            {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
-          </div>
+    <div>
+    {isCaptureLotOpen && <CaptureLot onClose={handleCloseCaptureLot} />}
+    <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
+    {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
+      </div>
 
-          <input type="search" placeholder="lot number" />
-          <input type="submit" />
+    <input type="search" placeholder="lot number" />
+    <input type="submit" />
 
       </div>
 
 
       <div id="grid">
         <h1>tools </h1>
+        <ul>
+        </ul>
       </div>
     </>
   );
