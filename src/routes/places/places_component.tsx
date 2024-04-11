@@ -9,7 +9,6 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import { getContacts, TContact } from "./contacts";
 import { getCurrentUser } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
@@ -98,7 +97,6 @@ const PlacesComponent: React.FC = () => {
           <Form method="post">
             <button type="submit">New</button>
           </Form>
-          <Link to="./cam">CAM</Link>
         </div>
 
         <nav>

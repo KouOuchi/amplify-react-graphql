@@ -2,7 +2,9 @@ import {
   redirect,
   ActionFunction 
 } from "react-router-dom";
-import { deleteContact } from "./contacts";
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from '../../graphql/mutations';
+import { Place } from '../../API';
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@destroy:action');
@@ -15,7 +17,20 @@ export const action:ActionFunction = async ({ request, params }) => {
 
   const id:string = params.contactId as string;
 
-  await deleteContact(id);
-  return redirect("../../places");
+  try {
+    const client = generateClient();
+    const deleteResult = await client.graphql({
+      query: mutations.deletePlace,
+      variables: {
+        input: {
+          id: params.contactId as string,
+        }
+      }
+    });
+  } catch (err) {
+    console.error('error removing Place', err);
+  }
+
+  return redirect('../../places');
 };
 

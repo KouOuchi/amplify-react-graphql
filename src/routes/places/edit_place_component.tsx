@@ -6,11 +6,6 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router-dom";
-import { 
-  getContact,
-  UpdateContact, 
-  TContact 
-} from "./contacts";
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import { Place } from '../../API';
@@ -35,8 +30,7 @@ export const action:ActionFunction = async ({ request, params }) => {
   } catch (err) {
     console.error('error updating Place', err);
   }
-
-  return redirect(`..`);
+  return redirect('..');
 };
 
 const EditPlaceComponent: React.FC = () => {
@@ -45,7 +39,6 @@ const EditPlaceComponent: React.FC = () => {
   const place = useLoaderData() as Place|null;
   const place_name = place?.name as string;
   const place_comment = place?.comment as string;
-
   
   return (
     <Form method="post" id="contact-form">

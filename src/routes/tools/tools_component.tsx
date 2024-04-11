@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Outlet, 
          Link,
@@ -8,11 +9,10 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import React, { useState } from 'react';
 import { CaptureLot } from './capture_lot';
 
-export default function Tools() {
-  console.debug('@Tools:');
+const ToolsComponent: React.FC = () => {
+    console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
   
@@ -98,4 +98,6 @@ export default function Tools() {
       </div>
     </>
   );
-}
+};
+
+export default ToolsComponent;

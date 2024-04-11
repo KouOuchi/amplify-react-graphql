@@ -27,8 +27,6 @@ import PlaceComponent, {
 import EditPlaceComponent, {
   action as editPlaceAction,
 } from "./routes/places/edit_place_component";
-import Cam, { 
-} from "./routes/cam";
 import Index, {
 } from "./routes/places/index";
 import { 
@@ -36,17 +34,12 @@ import {
 } from "./routes/places/destroy";
 //import './index.css';
 
-import Tools, {
-} from "./routes/tools/tools";
+import ToolsComponent, {
+} from "./routes/tools/tools_component";
 
 // welcom route
 import { Welcome, 
 } from "./welcome/welcome";
-
-// auth related imports
-//import LoginPage from './login/login_page';
-//import ProtectedPage from './login/protected_page';
-//import { ProtectedRoute, } from './login/protected_route';
 
 // amplify
 import { Amplify } from 'aws-amplify'; // checked 2024-4-5
@@ -116,17 +109,13 @@ const router = createBrowserRouter(
               loader={ placeLoader }
             />
             <Route
-              path="cam"
-              element={<Cam />}
-            />
-            <Route
-              path="contacts/:contactId/destroy"
+              path="place/:contactId/destroy"
               action={ destroyPlaceAction }
             />
           </Route>
           <Route
             path= "tools"
-            element={<Tools />}
+            element={<ToolsComponent />}
           >
           </Route>
         </Route>
@@ -146,8 +135,6 @@ root.render(
     </Authenticator.Provider>
   </React.StrictMode>
 );
-
-//export default withAuthenticator(props);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
