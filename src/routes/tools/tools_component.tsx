@@ -16,7 +16,6 @@ import * as queries from '../../graphql/queries';
 import { Place, Tool } from '../../API';
 
 export const loader:LoaderFunction = async ({params}) => {
-
   const fetchPlaces = async () => {
     try {
       const client = generateClient();
@@ -35,7 +34,8 @@ const ToolsComponent: React.FC = () => {
   console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
-  
+  const places = useLoaderData() as Array<Place>;
+
   const handleOpenCaptureLot = () => {
     setIsCaptureLot(true);
   };
@@ -45,19 +45,21 @@ const ToolsComponent: React.FC = () => {
     setCaptureLotResult(result);
  };
 
+  const handleUpdateToolList = () => {
+    ;;
+  };
+
   return (
     <>
       <div id="serch-condition">
         <form id="search-form" role="search">
-          <p>R
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-          </p>
+          <select>
+            <option key="-" value="-">拠点・在庫場所選択</option>
+            {  places?.map(place => (
+               <option key={place?.id} value={place?.id}>{place.name}</option>
+            ))
+            }
+          </select>
           <p>D
             <input
               id="q"
@@ -95,19 +97,16 @@ const ToolsComponent: React.FC = () => {
             />
           </p>
           ボール<input type="checkbox" />&nbsp;ラジアス<input type="checkbox" />&nbsp;スクエア<input type="checkbox" />
-    </form>
+        </form>
 
-
-
-    <div>
-    {isCaptureLotOpen && <CaptureLotComponent onClose={handleCloseCaptureLot} />}
-    <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
-    {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
-      </div>
-
-    <input type="search" placeholder="lot number" />
-    <input type="submit" />
-
+        <div>
+          {isCaptureLotOpen && <CaptureLotComponent onClose={handleCloseCaptureLot} />}
+          <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
+          {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
+        </div>
+        <div>
+          <button onClick={handleUpdateToolList}>更新</button>
+        </div>
       </div>
 
 

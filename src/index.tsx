@@ -119,6 +119,10 @@ const router = createBrowserRouter(
             element={<ToolsComponent />}
             loader={ toolsLoader }
           >
+            <Route
+              index={true}
+              element={<EmptyComponent />}
+            />
           </Route>
         </Route>
       </Route>
