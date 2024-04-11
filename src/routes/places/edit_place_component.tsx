@@ -11,78 +11,61 @@ import {
   UpdateContact, 
   TContact 
 } from "./contacts";
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from '../../graphql/mutations';
+import { Place } from '../../API';
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@editAction:');
 
   const formData = await request.formData();
-  //  const updates = Object.fromEntries(formData);
-  //  console.debug('@editAction:updated'+JSON.stringify(updates)+'@id:'+id);
-  const updated:TContact = {
-    id: Number(params.contactId),
-    first: formData.get("first") as string,
-    last: formData.get("last") as string,
-    avatar: formData.get("avatar") as string,
-    twitter: formData.get("twitter") as string,
-    notes: formData.get("notes") as string,
-    favorite: formData.get("favorite") === "true" ? true : false as boolean,
-  };
-  
-  await UpdateContact(updated);
 
-  return redirect(`../place/${params.contactId}`);
+  try {
+    const client = generateClient();
+    const updateResult = await client.graphql({
+      query: mutations.updatePlace,
+      variables: {
+        input: {
+          id: params.contactId as string,
+          name: formData.get("name") as string,
+          comment: formData.get("comment") as string,
+        }
+      }
+    });
+  } catch (err) {
+    console.error('error updating Place', err);
+  }
+
+  return redirect(`..`);
 };
 
 const EditPlaceComponent: React.FC = () => {
   const navigate = useNavigate();
 
+  const place = useLoaderData() as Place|null;
+  const place_name = place?.name as string;
+  const place_comment = place?.comment as string;
 
-  const contact = useLoaderData() as TContact;
-
-
+  
   return (
     <Form method="post" id="contact-form">
       <p>
-        <span>Name</span>
+        <span>拠点・在庫場所</span>
         <input
-          placeholder="First"
-          aria-label="First name"
+          placeholder="< 拠点・在庫場所 >"
+          aria-label="name"
           type="text"
-          name="first"
-          defaultValue={contact.first}
-        />
-        <input
-          placeholder="Last"
-          aria-label="Last name"
-          type="text"
-          name="last"
-          defaultValue={contact.last}
+          name="name"
+          defaultValue={place_name}
         />
       </p>
       <label>
-        <span>Twitter</span>
-        <input
-          type="text"
-          name="twitter"
-          placeholder="@jack"
-          defaultValue={contact.twitter}
-        />
-      </label>
-      <label>
-        <span>Avatar URL</span>
-        <input
-          placeholder="https://example.com/avatar.jpg"
-          aria-label="Avatar URL"
-          type="text"
-          name="avatar"
-          defaultValue={contact.avatar}
-        />
-      </label>
-      <label>
-        <span>Notes</span>
+        <span>コメント</span>
         <textarea
-          name="notes"
-          defaultValue={contact.notes}
+          placeholder="< コメント >"
+          aria-label="comment"
+          name="comment"
+          defaultValue={place_comment}
           rows={6}
         />
       </label>

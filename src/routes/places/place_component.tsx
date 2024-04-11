@@ -17,16 +17,6 @@ import { getPlace } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 import { Place } from '../../API';
 
-export const loader:LoaderFunction = async ({params}) => {
-  const contactId = params.contactId as string;
-  console.debug('@Contact:'+JSON.stringify(contactId));
-
-  if(!contactId) {
-    throw new Error("contact id not defined.");
-  }
-  return contactId;
-};
-
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@contactAction!');
   const formData = await request.formData();
@@ -53,31 +43,36 @@ export const action:ActionFunction = async ({ request, params }) => {
   return UpdateContact(contact);
 };
 
+export const loader:LoaderFunction = async ({params}) => {
+  const contactId = params.contactId as string;
+  console.debug('@Contact:'+JSON.stringify(contactId));
+
+  if(!contactId) {
+    throw new Error("contact id not defined.");
+  }
+
+  const fetchPlace = async () => {
+    try {
+      const client = generateClient();
+      const placeData = await client.graphql({ 
+        query: getPlace,
+        variables: {
+          id: contactId,
+        }
+      });
+      return placeData.data.getPlace as Place;
+    } catch (err) {
+      console.error('error fetching Place', err);
+    }
+  };
+
+  return fetchPlace();
+};
+
 const PlaceComponent: React.FC = () => {
   console.debug('@loader');
-  const [place, setPlace] = useState<Place | null>(null);
 
-  const placeid = useLoaderData() as string;
-
-  useEffect(() => {
-    const fetchPlace = async () => {
-      try {
-        const client = generateClient();
-        const placeData = await client.graphql({ 
-          query: getPlace,
-          variables: {
-            id: placeid,
-          }
-        });
-        const place = placeData.data.getPlace as Place;
-        setPlace(place);
-      } catch (err) {
-        console.error('error fetching Place', err);
-      }
-    };
-
-    fetchPlace();
-  }, []);
+  const place = useLoaderData() as Place|null;
 
   return (
     <div id="place">

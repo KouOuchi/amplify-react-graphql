@@ -9,21 +9,46 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import { getContacts, createContact,TContact } from "./contacts";
+import { getContacts, TContact } from "./contacts";
 import { getCurrentUser } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
-import { listPlaces } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
+import * as queries from '../../graphql/queries';
 import { Place } from '../../API';
+
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@create new action #1');
-  const contact = await createContact();
-  console.debug('@create new action #2:'+`contacts/${contact.id}/edit`);
 
-  console.debug('@API creation start.');
+  let created_place:Place | null = null;
 
-  return redirect(`place/${contact.id}/edit`);
+  try {
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
+
+    const client = generateClient();
+
+    const placeDetails = {
+      name: 'My first places!',
+      userID: userId,
+      fovorite: false
+    };
+
+    const result = await client.graphql({
+      query: mutations.createPlace,
+      variables: { input: placeDetails }
+    });
+    console.debug('@API creation done:'+result);
+    created_place = result.data.createPlace;
+
+  } catch (err) {
+    console.log(err);
+  }
+
+  console.debug('@create new action #2:'+`place/${created_place?.id}/edit`);
+  return redirect(`place/${created_place?.id}/edit`);
 };
 
 const PlacesComponent: React.FC = () => {
@@ -33,7 +58,7 @@ const PlacesComponent: React.FC = () => {
     const fetchPlaces = async () => {
       try {
         const client = generateClient();
-        const placesData = await client.graphql({ query: listPlaces });
+        const placesData = await client.graphql({ query: queries.listPlaces });
         const placesList = placesData.data.listPlaces.items as Array<Place>;
         setPlaces(placesList);
       } catch (err) {
