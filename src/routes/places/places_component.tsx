@@ -130,7 +130,7 @@ const PlacesComponent: React.FC = () => {
         </nav>
       </div>
 
-      <div id="detail"
+      <div
         className={
         navigation.state === "loading" ? "loading" : ""
         }

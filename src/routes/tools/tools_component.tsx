@@ -15,6 +15,21 @@ import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import { Place, Tool } from '../../API';
 
+export const action:ActionFunction = async ({request, params}) => {
+  console.debug('@action start');
+  try {
+
+//    const formData = await request.formData();
+//    console.debug('@tools from data:'+JSON.stringify(formData.get("D")));
+//    console.debug('@tools from data:'+JSON.stringify(formData.get("Ds")));
+
+    
+    return redirect(`place/12345`);
+  } finally {
+    console.debug('@action end');
+  }
+};
+
 export const loader:LoaderFunction = async ({params}) => {
   const fetchPlaces = async () => {
     try {
@@ -52,7 +67,7 @@ const ToolsComponent: React.FC = () => {
   return (
     <>
       <div id="serch-condition">
-        <form id="search-form" role="search">
+        <Form method="post">
           <select>
             <option key="-" value="-">拠点・在庫場所選択</option>
             {  places?.map(place => (
@@ -62,59 +77,56 @@ const ToolsComponent: React.FC = () => {
           </select>
           <p>D
             <input
-              id="q"
               aria-label="Search contacts"
-              placeholder="Search"
+              placeholder="<D>"
               type="search"
-              name="q"
+              name="D"
             />
           </p>
           <p>Ds
             <input
-              id="q"
               aria-label="Search contacts"
-              placeholder="Search"
+              placeholder="<Ds>"
               type="search"
-              name="q"
+              name="Ds"
             />
           </p>
           <p>L
             <input
-              id="q"
               aria-label="Search contacts"
-              placeholder="Search"
+              placeholder="<L>"
               type="search"
-              name="q"
+              name="L"
             />
           </p>
           <p>L1
             <input
-              id="q"
               aria-label="Search contacts"
-              placeholder="Search"
+              placeholder="<L1>"
               type="search"
-              name="q"
+              name="L1"
             />
           </p>
-          ボール<input type="checkbox" />&nbsp;ラジアス<input type="checkbox" />&nbsp;スクエア<input type="checkbox" />
-        </form>
+
+          ボール<input name="ball" type="checkbox" />&nbsp;ラジアス<input name="radius" type="checkbox" />&nbsp;スクエア<input name="square" type="checkbox" />
+          <div>
+            <button type="submit" onClick={handleUpdateToolList}>更新</button>
+            <NavLink to={`place/999`}>test link</NavLink>
+
+          </div>
+        </Form>
 
         <div>
           {isCaptureLotOpen && <CaptureLotComponent onClose={handleCloseCaptureLot} />}
           <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
           {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
         </div>
-        <div>
-          <button onClick={handleUpdateToolList}>更新</button>
-        </div>
       </div>
 
 
       <div id="grid">
         <h1>tools </h1>
-        <ul>
-          
-        </ul>
+        <Outlet />
       </div>
     </>
   );

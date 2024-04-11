@@ -35,7 +35,11 @@ import {
 
 import ToolsComponent, {
   loader as toolsLoader,
+  action as toolsAction 
 } from "./routes/tools/tools_component";
+import ToolListComponent, {
+  loader as toollistLoader,
+} from "./routes/tools/tool_list_component";
 
 // welcom route
 import { Welcome, 
@@ -115,13 +119,19 @@ const router = createBrowserRouter(
             />
           </Route>
           <Route
-            path= "tools"
+            path="tools"
             element={<ToolsComponent />}
             loader={ toolsLoader }
+            action={ toolsAction }
           >
             <Route
               index={true}
               element={<EmptyComponent />}
+            />
+            <Route
+              path="place/:contactId"
+              loader={ toollistLoader }
+              element={<ToolListComponent />}
             />
           </Route>
         </Route>
