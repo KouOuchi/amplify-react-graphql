@@ -7,12 +7,11 @@ import {
   BrowserRouter,
   RouterProvider,
   Route,
-  Routes,
 } from "react-router-dom";
 
 // application imports
-import ErrorPage, {
-} from "./error-page";
+import ErrorComponent, {
+} from "./error_component";
 
 // places routes
 import MainComponent, {
@@ -28,8 +27,7 @@ import PlaceComponent, {
 import EditPlaceComponent, {
   action as editPlaceAction,
 } from "./routes/places/edit_place_component";
-import Index, {
-} from "./routes/places/index";
+import EmptyComponent from "./routes/places/empty_component";
 import { 
   action as destroyPlaceAction 
 } from "./routes/places/destroy";
@@ -73,7 +71,7 @@ const router = createBrowserRouter(
         <Route
           path="welcome"
           element={<Welcome />}
-          errorElement={<ErrorPage />}
+          errorElement={<ErrorComponent />}
         />
       </Route>
 
@@ -87,7 +85,7 @@ const router = createBrowserRouter(
                                            )}
             </Authenticator>
           }
-          errorElement={<ErrorPage />}
+          errorElement={<ErrorComponent />}
         >
           <Route
             path= "places"
@@ -97,7 +95,7 @@ const router = createBrowserRouter(
           >
             <Route
               index={true}
-              element={<Index />}
+              element={<EmptyComponent />}
             />
             <Route 
               path="place/:contactId"
