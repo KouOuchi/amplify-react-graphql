@@ -8,7 +8,9 @@ import { Outlet,
          LoaderFunction,
          useLoaderData,
          useNavigation,
-         redirect, } from "react-router-dom";
+         redirect, 
+         useOutletContext,
+} from "react-router-dom";
 import { CaptureLotComponent } from './capture_lot_component';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
@@ -16,21 +18,25 @@ import * as queries from '../../graphql/queries';
 import { Place, Tool } from '../../API';
 
 
-export const loader:LoaderFunction = async () => {
-  console.debug('@action start');
+export const loader:LoaderFunction = async ({request, params}) => {
+  console.debug('@loader start');
   try {
 
-//    const formData = await request.formData();
-//    console.debug('@tools from data:'+JSON.stringify(formData.get("D")));
-//    console.debug('@tools from data:'+JSON.stringify(formData.get("Ds")));
+
+
+    //    const formData = await request.formData();
+    console.debug('@tools from data:'+JSON.stringify(params));
+    //    console.debug('@tools from data:'+JSON.stringify(formData.get("Ds")));
     return '';
   } finally {
-    console.debug('@action end');
+    console.debug('@loader end');
   }
 };
 
 const ToolListComponent: React.FC = () => {
-  console.debug('@ToolList:');
+  const selectedPlace = useOutletContext();
+  console.debug('@ToolList:'+selectedPlace);
+
 
   return (
     <div id="place">

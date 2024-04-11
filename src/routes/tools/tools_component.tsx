@@ -19,10 +19,6 @@ export const action:ActionFunction = async ({request, params}) => {
   console.debug('@action start');
   try {
 
-//    const formData = await request.formData();
-//    console.debug('@tools from data:'+JSON.stringify(formData.get("D")));
-//    console.debug('@tools from data:'+JSON.stringify(formData.get("Ds")));
-
     
     return redirect(`place/12345`);
   } finally {
@@ -49,6 +45,9 @@ const ToolsComponent: React.FC = () => {
   console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
+
+  const [selectedPlace, setSelectedPlace] = React.useState<string>('aaa');
+
   const places = useLoaderData() as Array<Place>;
 
   const handleOpenCaptureLot = () => {
@@ -126,7 +125,7 @@ const ToolsComponent: React.FC = () => {
 
       <div id="grid">
         <h1>tools </h1>
-        <Outlet />
+        <Outlet context={selectedPlace} />
       </div>
     </>
   );
