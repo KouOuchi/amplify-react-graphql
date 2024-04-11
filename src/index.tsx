@@ -18,6 +18,7 @@ import ErrorPage, {
 import MainComponent, {
 } from "./routes/main_component";
 import PlacesComponent, {
+  loader as placesLoader,
   action as placesAction,
 } from "./routes/places/places_component";
 import PlaceComponent, {
@@ -35,6 +36,7 @@ import {
 //import './index.css';
 
 import ToolsComponent, {
+  loader as toolsLoader,
 } from "./routes/tools/tools_component";
 
 // welcom route
@@ -90,6 +92,7 @@ const router = createBrowserRouter(
           <Route
             path= "places"
             element={<PlacesComponent />}
+            loader={ placesLoader }
             action={ placesAction }
           >
             <Route
@@ -116,6 +119,7 @@ const router = createBrowserRouter(
           <Route
             path= "tools"
             element={<ToolsComponent />}
+            loader={ toolsLoader }
           >
           </Route>
         </Route>

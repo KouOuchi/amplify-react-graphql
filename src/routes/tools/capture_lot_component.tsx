@@ -128,7 +128,7 @@ interface CaptureLotProps {
 }
 
 
-export const CaptureLot: React.FC<CaptureLotProps> = ({onClose}) => {
+export const CaptureLotComponent: React.FC<CaptureLotProps> = ({onClose}) => {
   //  const contact = useLoaderData();
   console.debug('@CaptureLot');
 

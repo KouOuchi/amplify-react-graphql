@@ -50,23 +50,25 @@ export const action:ActionFunction = async ({request, params}) => {
   return redirect(`place/${created_place?.id}/edit`);
 };
 
+export const loader:LoaderFunction = async ({params}) => {
+
+  const fetchPlaces = async () => {
+    try {
+      const client = generateClient();
+      const placesData = await client.graphql({ query: queries.listPlaces });
+      return placesData.data.listPlaces.items as Array<Place>;
+
+    } catch (err) {
+      console.error('error fetching Places', err);
+    }
+  };
+
+  return fetchPlaces();
+};
+
 const PlacesComponent: React.FC = () => {
-  const [places, setPlaces] = useState<Array<Place | null >>([]);
+  const places = useLoaderData() as Array<Place>;
 
-  useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        const client = generateClient();
-        const placesData = await client.graphql({ query: queries.listPlaces });
-        const placesList = placesData.data.listPlaces.items as Array<Place>;
-        setPlaces(placesList);
-      } catch (err) {
-        console.error('error fetching Places', err);
-      }
-    };
-
-    fetchPlaces();
-  }, []);
 
   const navigation = useNavigation();
   //console.debug('@Top:'+JSON.stringify(contacts));
@@ -103,8 +105,8 @@ const PlacesComponent: React.FC = () => {
           { places.length > 0 ? (
             <ul>
               { places.map((place) => (
-                <li key={place?.id}>
-                  <NavLink to={`place/${place?.id}`}
+                <li key={place.id}>
+                  <NavLink to={`place/${place.id}`}
                     className={({ isActive, isPending }) =>
                       isActive
                       ? "active"
@@ -113,8 +115,8 @@ const PlacesComponent: React.FC = () => {
                       : ""
                     }
                   >
-                    {place?.name}
-                    {place?.fovorite && <span>★</span>}
+                    {place.name}
+                    {place.fovorite && <span>★</span>}
                   </NavLink>
                 </li>
               ))}

@@ -9,10 +9,30 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import { CaptureLot } from './capture_lot';
+import { CaptureLotComponent } from './capture_lot_component';
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from '../../graphql/mutations';
+import * as queries from '../../graphql/queries';
+import { Place, Tool } from '../../API';
+
+export const loader:LoaderFunction = async ({params}) => {
+
+  const fetchPlaces = async () => {
+    try {
+      const client = generateClient();
+      const placesData = await client.graphql({ query: queries.listPlaces });
+      return placesData.data.listPlaces.items as Array<Place>;
+
+    } catch (err) {
+      console.error('error fetching Places', err);
+    }
+  };
+
+  return fetchPlaces();
+};
 
 const ToolsComponent: React.FC = () => {
-    console.debug('@Tools:');
+  console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
   
@@ -80,7 +100,7 @@ const ToolsComponent: React.FC = () => {
 
 
     <div>
-    {isCaptureLotOpen && <CaptureLot onClose={handleCloseCaptureLot} />}
+    {isCaptureLotOpen && <CaptureLotComponent onClose={handleCloseCaptureLot} />}
     <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
     {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
       </div>
@@ -94,6 +114,7 @@ const ToolsComponent: React.FC = () => {
       <div id="grid">
         <h1>tools </h1>
         <ul>
+          
         </ul>
       </div>
     </>
