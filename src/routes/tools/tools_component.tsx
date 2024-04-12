@@ -41,12 +41,35 @@ export const loader:LoaderFunction = async ({params}) => {
   return fetchPlaces();
 };
 
+export interface ToolSearchCondition {
+  place_id: string;
+  tip_type: string;
+  D: number;
+  R: number;
+  Ds: number;
+  L: number;
+  L1: number;
+}
+
+export type ToolResultContextType = { toolSearchCondition: ToolSearchCondition | null };
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+const tip_type_options: Option[] = [
+  { value: 'ball', label: 'ボール' },
+  { value: 'radius', label: 'ラジアス' },
+  { value: 'square', label: 'スクエア' },
+];
+
 const ToolsComponent: React.FC = () => {
   console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
 
-  const [selectedPlace, setSelectedPlace] = React.useState<string>('aaa');
+  const [toolSearchCondition, setToolSearchCondition] = React.useState<ToolSearchCondition>({} as ToolSearchCondition);
 
   const places = useLoaderData() as Array<Place>;
 
@@ -59,16 +82,24 @@ const ToolsComponent: React.FC = () => {
     setCaptureLotResult(result);
  };
 
-  const handleUpdateToolList = () => {
-    ;;
+  const handlePlaceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    toolSearchCondition.place_id = event.target.value;
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
   };
+  const handleTipTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    toolSearchCondition.tip_type = event.target.value;
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
+
 
   return (
     <>
       <div id="serch-condition">
         <Form method="post">
-          <select>
-            <option key="-" value="-">拠点・在庫場所選択</option>
+          <select value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
+            <option key="-" value="">拠点・在庫場所選択</option>
             {  places?.map(place => (
                <option key={place?.id} value={place?.id}>{place.name}</option>
             ))
@@ -107,11 +138,14 @@ const ToolsComponent: React.FC = () => {
             />
           </p>
 
-          ボール<input name="ball" type="checkbox" />&nbsp;ラジアス<input name="radius" type="checkbox" />&nbsp;スクエア<input name="square" type="checkbox" />
-          <div>
-            <button type="submit" onClick={handleUpdateToolList}>更新</button>
-            <NavLink to={`place/999`}>test link</NavLink>
+          <select value={toolSearchCondition.tip_type} onChange={handleTipTypeChange}>
+            {tip_type_options.map(option => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
 
+          <div>
+            <button type="submit">更新</button>
           </div>
         </Form>
 
@@ -125,7 +159,7 @@ const ToolsComponent: React.FC = () => {
 
       <div id="grid">
         <h1>tools </h1>
-        <Outlet context={selectedPlace} />
+        <Outlet context={{toolSearchCondition} satisfies ToolResultContextType} />
       </div>
     </>
   );

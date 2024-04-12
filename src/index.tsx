@@ -38,7 +38,7 @@ import ToolsComponent, {
   action as toolsAction 
 } from "./routes/tools/tools_component";
 import ToolListComponent, {
-  loader as toollistLoader,
+//  loader as toollistLoader,
 } from "./routes/tools/tool_list_component";
 
 // welcom route
@@ -65,6 +65,8 @@ import config from './amplifyconfiguration.json';
 // start logic
 Amplify.configure(awsmobile);
 Amplify.configure(config);
+
+
 
 // build router
 const router = createBrowserRouter(
@@ -130,7 +132,6 @@ const router = createBrowserRouter(
             />
             <Route
               path="place/:contactId"
-              loader={ toollistLoader }
               element={<ToolListComponent />}
             />
           </Route>
