@@ -8,6 +8,7 @@ import { Outlet,
          LoaderFunction,
          useLoaderData,
          useNavigation,
+         useNavigate,
          redirect, } from "react-router-dom";
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -24,11 +25,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 const MainComponent: React.FC = () => {
   const navigation = useNavigation();
-
-
+  const navigate = useNavigate();
+  const navItems = [
+    {index:0, display:'拠点・在庫場所', fn:()=>{ navigate('places');}},
+    {index:1, display:'工具', fn:()=>{ navigate('tool_search'); }},
+    {index:2, display:'ログアウト', fn:() => { signOut(); }},
+  ];
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -39,14 +45,14 @@ const MainComponent: React.FC = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        NS工具箱App(仮)
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+        {navItems.map(item => (
+          <ListItem key={item.index} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }} onClick={item.fn}>
+              <ListItemText primary={item.display} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -75,12 +81,12 @@ const MainComponent: React.FC = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            NS工具箱App(仮)
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
+            {navItems.map(item => (
+              <Button key={item.index} sx={{ color: '#fff' }} onClick={item.fn}>
+                {item.display}
               </Button>
             ))}
           </Box>
@@ -105,41 +111,7 @@ const MainComponent: React.FC = () => {
       </nav>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-
-        <div>
-          <nav>
-            <NavLink to='places'
-              className={({ isActive, isPending }) =>
-                isActive
-                ? "active"
-                : isPending
-                ? "pending"
-                : ""
-              }
-            >
-              Places
-            </NavLink>
-            <NavLink to='tool_search'
-              className={({ isActive, isPending }) =>
-                isActive
-                ? "active"
-                : isPending
-                ? "pending"
-                : ""
-              }
-            >
-              Tools
-            </NavLink>
-            <a href="." onClick={(e) => { signOut(); }}>ログアウト</a>
-          </nav>
-          <div id="detail"
-            className={
-            navigation.state === "loading" ? "loading" : ""
-            }
-          >
-            <Outlet />
-          </div>
-        </div>
+        <Outlet />
       </Box>
     </Box>
   );
@@ -155,7 +127,5 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
-
 
 export default MainComponent;
