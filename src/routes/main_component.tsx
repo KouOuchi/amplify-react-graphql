@@ -27,7 +27,7 @@ const MainComponent: React.FC = () => {
         >
           Places
         </NavLink>
-        <NavLink to='tools'
+        <NavLink to='tool_search'
           className={({ isActive, isPending }) =>
             isActive
             ? "active"

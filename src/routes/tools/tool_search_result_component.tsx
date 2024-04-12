@@ -16,9 +16,9 @@ import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import { Place, Tool } from '../../API';
-import {ToolResultContextType} from './tools_component'; 
+import {ToolResultContextType} from './tool_search_component'; 
 
-const ToolListComponent: React.FC = () => {
+const ToolSearchResultComponent: React.FC = () => {
 
   const { toolSearchCondition } = useOutletContext<ToolResultContextType>();
 
@@ -26,10 +26,10 @@ const ToolListComponent: React.FC = () => {
   console.debug('@ToolList:'+JSON.stringify(toolSearchCondition))
   
   return (
-    <div id="place">
+    <div>
       <h1>Tool List {toolSearchCondition?.tip_type}</h1>
     </div>
-                                                      );
+  );
 };
 
-export default ToolListComponent;
+export default ToolSearchResultComponent;

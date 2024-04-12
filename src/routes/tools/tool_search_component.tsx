@@ -64,7 +64,7 @@ const tip_type_options: Option[] = [
   { value: 'square', label: 'スクエア' },
 ];
 
-const ToolsComponent: React.FC = () => {
+const ToolSearchComponent: React.FC = () => {
   console.debug('@Tools:');
   const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
   const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
@@ -165,4 +165,4 @@ const ToolsComponent: React.FC = () => {
   );
 };
 
-export default ToolsComponent;
+export default ToolSearchComponent;

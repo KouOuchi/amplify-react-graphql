@@ -33,13 +33,12 @@ import {
 } from "./routes/places/destroy";
 //import './index.css';
 
-import ToolsComponent, {
-  loader as toolsLoader,
-  action as toolsAction 
-} from "./routes/tools/tools_component";
-import ToolListComponent, {
-//  loader as toollistLoader,
-} from "./routes/tools/tool_list_component";
+import ToolSearchComponent, {
+  loader as toolSearchLoader,
+  action as toolSearchAction 
+} from "./routes/tools/tool_search_component";
+import ToolSearchResultComponent, {
+} from "./routes/tools/tool_search_result_component";
 
 // welcom route
 import { Welcome, 
@@ -121,10 +120,10 @@ const router = createBrowserRouter(
             />
           </Route>
           <Route
-            path="tools"
-            element={<ToolsComponent />}
-            loader={ toolsLoader }
-            action={ toolsAction }
+            path="tool_search"
+            element={<ToolSearchComponent />}
+            loader={ toolSearchLoader }
+            action={ toolSearchAction }
           >
             <Route
               index={true}
@@ -132,7 +131,7 @@ const router = createBrowserRouter(
             />
             <Route
               path="place/:contactId"
-              element={<ToolListComponent />}
+              element={<ToolSearchResultComponent />}
             />
           </Route>
         </Route>
