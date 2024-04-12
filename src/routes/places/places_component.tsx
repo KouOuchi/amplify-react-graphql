@@ -15,7 +15,6 @@ import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import { Place } from '../../API';
 
-
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@create new action #1');
 
@@ -68,34 +67,13 @@ export const loader:LoaderFunction = async ({params}) => {
 
 const PlacesComponent: React.FC = () => {
   const places = useLoaderData() as Array<Place>;
-
-
   const navigation = useNavigation();
-  //console.debug('@Top:'+JSON.stringify(contacts));
 
   return (
-    <>
+    <div>
       <div id="sidebar">
-        <h1>React Router Contacts</h1>
+        <h1>拠点・在庫場所一覧</h1>
         <div>
-          <form id="search-form" role="search">
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-            <div
-              id="search-spinner"
-              aria-hidden
-              hidden={true}
-            />
-            <div
-              className="sr-only"
-              aria-live="polite"
-            ></div>
-          </form>
           <Form method="post">
             <button type="submit">New</button>
           </Form>
@@ -103,28 +81,28 @@ const PlacesComponent: React.FC = () => {
 
         <nav>
           { places.length > 0 ? (
-            <ul>
-              { places.map((place) => (
-                <li key={place.id}>
-                  <NavLink to={`place/${place.id}`}
-                    className={({ isActive, isPending }) =>
-                      isActive
-                      ? "active"
-                      : isPending
-                      ? "pending"
-                      : ""
-                    }
-                  >
-                    {place.name}
-                    {place.fovorite && <span>★</span>}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
+              <ul>
+                { places.map((place) => (
+                  <li key={place.id}>
+                    <NavLink to={`place/${place.id}`}
+                      className={({ isActive, isPending }) =>
+                        isActive
+                        ? "active"
+                        : isPending
+                        ? "pending"
+                        : ""
+                      }
+                    >
+                      {place.name}
+                      {place.fovorite && <span>★</span>}
+                    </NavLink>
+                  </li>
+                  ))}
+              </ul>
           ) : (
-            <p>
-              <i>No contacts</i>
-            </p>
+              <p>
+                <i>No contacts</i>
+              </p>
           )
           }
         </nav>
@@ -138,7 +116,7 @@ const PlacesComponent: React.FC = () => {
         <Outlet />
       </div>
 
-    </>
+    </div>
   );
 };
 
