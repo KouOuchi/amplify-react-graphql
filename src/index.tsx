@@ -41,8 +41,8 @@ import ToolSearchResultComponent, {
 } from "./routes/tools/tool_search_result_component";
 
 // welcom route
-import { Welcome, 
-} from "./welcome/welcome";
+import Welcome 
+ from "./welcome/welcome";
 
 // amplify
 import { Amplify } from 'aws-amplify'; // checked 2024-4-5
