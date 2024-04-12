@@ -74,7 +74,7 @@ const router = createBrowserRouter(
 
       <Route path="welcome/*">
         <Route
-          path="welcome"
+          index={true}
           element={<Welcome />}
           errorElement={<ErrorComponent />}
         />

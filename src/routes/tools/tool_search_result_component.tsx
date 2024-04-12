@@ -22,8 +22,7 @@ const ToolSearchResultComponent: React.FC = () => {
 
   const { toolSearchCondition } = useOutletContext<ToolResultContextType>();
 
-
-  console.debug('@ToolList:'+JSON.stringify(toolSearchCondition))
+  console.debug('@ToolSearchResult:'+JSON.stringify(toolSearchCondition))
   
   return (
     <div>

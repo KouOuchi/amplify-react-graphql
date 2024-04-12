@@ -82,6 +82,7 @@ const ToolSearchComponent: React.FC = () => {
     setCaptureLotResult(result);
  };
 
+  // input handlers
   const handlePlaceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     toolSearchCondition.place_id = event.target.value;
     setToolSearchCondition(toolSearchCondition);
@@ -92,7 +93,31 @@ const ToolSearchComponent: React.FC = () => {
     setToolSearchCondition(toolSearchCondition);
     console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
   };
-
+  const handleRChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toolSearchCondition.R = parseFloat(event.target.value);
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
+  const handleDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toolSearchCondition.D = parseFloat(event.target.value);
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
+  const handleDsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toolSearchCondition.Ds = parseFloat(event.target.value);
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
+  const handleLChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toolSearchCondition.L = parseFloat(event.target.value);
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
+  const handleL1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toolSearchCondition.L1 = parseFloat(event.target.value);
+    setToolSearchCondition(toolSearchCondition);
+    console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
+  };
 
   return (
     <>
@@ -105,8 +130,16 @@ const ToolSearchComponent: React.FC = () => {
             ))
             }
           </select>
+          <p>R
+            <input onChange={handleRChange}
+              aria-label="Search contacts"
+              placeholder="<R>"
+              type="search"
+              name="R"
+            />
+          </p>
           <p>D
-            <input
+            <input onChange={handleDChange}
               aria-label="Search contacts"
               placeholder="<D>"
               type="search"
@@ -114,7 +147,7 @@ const ToolSearchComponent: React.FC = () => {
             />
           </p>
           <p>Ds
-            <input
+            <input onChange={handleDsChange}
               aria-label="Search contacts"
               placeholder="<Ds>"
               type="search"
@@ -122,7 +155,7 @@ const ToolSearchComponent: React.FC = () => {
             />
           </p>
           <p>L
-            <input
+            <input onChange={handleLChange}
               aria-label="Search contacts"
               placeholder="<L>"
               type="search"
@@ -130,7 +163,7 @@ const ToolSearchComponent: React.FC = () => {
             />
           </p>
           <p>L1
-            <input
+            <input onChange={handleL1Change}
               aria-label="Search contacts"
               placeholder="<L1>"
               type="search"
