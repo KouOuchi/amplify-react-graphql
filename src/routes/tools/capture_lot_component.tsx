@@ -1,10 +1,15 @@
 import { 
   Form,
-  useLoaderData,
   redirect,
 } from "react-router-dom";
 import React, { useEffect, useRef, useState } from 'react';
 import jsQR from 'jsqr';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
 
 const videoWidth  = 500;
 const videoHeight = 500;
@@ -13,8 +18,8 @@ const videoFrameRate = 5;
 const constraints:MediaStreamConstraints = {
   audio: false,
   video: {
-    width:  { min: 400, ideal: 800, max: 1270 },
-    height: { min: 300 , ideal: 600, max: 720 } ,
+    width:  { min: 500, ideal: 800, max: 1270 },
+    height: { min: 400 , ideal: 600, max: 720 } ,
     frameRate: {
       max: videoFrameRate,
     }//,
@@ -28,11 +33,11 @@ interface loaderProps {
   params: string;
 }
 
-const QRCodeScanner = () => {
+const QRCodeScanner:React.FC<CaptureLotProps> = ({onClose}) => {
   const videoRef    = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<number>();
   const canvasRef   = useRef<HTMLCanvasElement>(null);
-  const [isContinue, setIsContinue] = useState<boolean>(false);
+  const [isContinue, setIsContinue] = useState<boolean>(true);
   const [qrCodeData, setQrCodeData] = useState<string[]>([]);
 
   useEffect(() => {
@@ -79,6 +84,7 @@ const QRCodeScanner = () => {
       }
 
       setQrCodeData([...qrCodeData, decodedValue]);
+
     }, 1_000 / videoFrameRate);
     intervalRef.current = intervalId;
 
@@ -96,43 +102,42 @@ const QRCodeScanner = () => {
   };
 
   return (
-    <div className="App">
-      <div style={{ display: 'grid' }}>
-        <div>
-          <video autoPlay playsInline={true} ref={videoRef} style={{ width: '100%' }}>
-            <canvas width={videoWidth} height={videoHeight} ref={canvasRef} />
-          </video>
-        </div>
-        <div>
-          <p>{qrCodeData}</p>
-        </div>
-        <div>
-          <button onClick={handleStart}>Start Scan</button>
-          <button onClick={handleStop}>Stop Scan</button>
-        </div>
+    <div style={{ display: 'grid' }}>
+      <div>
+        <video autoPlay playsInline={true} ref={videoRef} style={{ width: '100%' }}>
+          <canvas width={videoWidth} height={videoHeight} ref={canvasRef} />
+        </video>
       </div>
-      hello QRCodeScanner
+      <div>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+
+            <Grid xs>
+              { qrCodeData.length == 0 ? ( <CircularProgress /> ) : '' }
+            </Grid>
+            <Grid xs={6}>
+              <Typography>
+                {qrCodeData}
+              </Typography>
+            </Grid>
+            <Grid xs>
+              <Button onClick={() => onClose( qrCodeData.join(' ') )}>閉じる</Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
     </div>
   );
-}
+};
 
 interface CaptureLotProps {
   onClose: (result: string) => void; // return value type : string
 }
 
-
 export const CaptureLotComponent: React.FC<CaptureLotProps> = ({onClose}) => {
-  //  const contact = useLoaderData();
-  console.debug('@CaptureLot');
-
   return (
-    <div id="cam">
     <div>
-      <h1>CAM</h1>
-
-      <QRCodeScanner />
-    </div>
-      <button onClick={() => onClose('This is LOT!')}>閉じる</button>
+      <QRCodeScanner onClose={onClose}/>
     </div>
   );
-    }
+}

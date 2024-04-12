@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 
 export const action:ActionFunction = async ({ request, params }) => {
   return redirect(".");
@@ -50,7 +51,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 600,
-  height: 600,
+  height: 500,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -103,11 +104,15 @@ const ToolAddComponent: React.FC = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleCloseCaptureLot = (e:string) => {
+    toolAddCondition.lot = e;
+    setToolAddCondition(toolAddCondition);
+    console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition));
+    setOpen(false)
+  }
 
   return (
     <div>
-      <p>tool add</p>
-
       <Form method="post" onSubmit={(event) => {
         console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition))
         if(!toolAddCondition.place_id) {
@@ -158,23 +163,32 @@ const ToolAddComponent: React.FC = () => {
 
         <br/>
 
+        ロット番号
+        <TextField id="standard-basic"  variant="standard" onChange={(e)=> {
+          toolAddCondition.lot = e.target.value;
+          setToolAddCondition(toolAddCondition);
+          console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition));
+        }} value={toolAddCondition.lot} />
+        <br/>
+        <Button variant="outlined" onClick={handleOpen} ><QrCodeScannerRoundedIcon />QRコード取得</Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <CaptureLotComponent onClose={handleCloseCaptureLot} />
+          </Box>
+        </Modal>
+        <br/>
+        型番
+        <TextField id="standard-basic" variant="standard" />
+
+        <br/>
         <Button type="submit" variant="contained">工具登録</Button>
+
       </Form>
-      <br/>
-
-      <Button variant="outlined" onClick={handleOpen} ><QrCodeScannerRoundedIcon />QRコード取得</Button>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <CaptureLotComponent onClose={handleClose} />
-        </Box>
-      </Modal>
-
     </div>
   );
 };

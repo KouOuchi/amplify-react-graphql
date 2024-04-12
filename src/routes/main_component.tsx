@@ -33,7 +33,8 @@ const MainComponent: React.FC = () => {
   const navigate = useNavigate();
   const navItems = [
     {index:0, display:'拠点・在庫場所', fn:()=>{ navigate('places');}},
-    {index:1, display:'工具', fn:()=>{ navigate('tool_search'); }},
+    {index:1, display:'工具一覧', fn:()=>{ navigate('tool_search'); }},
+    {index:1, display:'工具追加', fn:()=>{ navigate('tool_add'); }},
     {index:2, display:'ログアウト', fn:() => { signOut(); }},
   ];
 
