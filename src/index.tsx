@@ -39,10 +39,14 @@ import ToolSearchComponent, {
 } from "./routes/tools/tool_search_component";
 import ToolSearchResultComponent, {
 } from "./routes/tools/tool_search_result_component";
+import ToolAddComponent, {
+  action as toolAddAction 
+} from "./routes/tools/tool_add_component";
+
 
 // welcom route
 import Welcome 
- from "./welcome/welcome";
+from "./welcome/welcome";
 
 // amplify
 import { Amplify } from 'aws-amplify'; // checked 2024-4-5
@@ -134,9 +138,15 @@ const router = createBrowserRouter(
               element={<ToolSearchResultComponent />}
             />
           </Route>
+          <Route
+            path="tool_add"
+            element={<ToolAddComponent />}
+            loader={ toolSearchLoader }
+            action={ toolAddAction }
+          />
+          </Route>
         </Route>
       </Route>
-    </Route>
   )
 );
 

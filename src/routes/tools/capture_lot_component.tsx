@@ -28,12 +28,6 @@ interface loaderProps {
   params: string;
 }
 
-export async function loader({ params }:loaderProps) : Promise<any> {
-  console.debug('@params:'+JSON.stringify(params));
-  //  const contact = await getContact(params.contactId);
-  return null;
-}
-
 const QRCodeScanner = () => {
   const videoRef    = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<number>();
@@ -103,7 +97,6 @@ const QRCodeScanner = () => {
 
   return (
     <div className="App">
-      <p>QR Code Scanner</p>
       <div style={{ display: 'grid' }}>
         <div>
           <video autoPlay playsInline={true} ref={videoRef} style={{ width: '100%' }}>
@@ -111,7 +104,7 @@ const QRCodeScanner = () => {
           </video>
         </div>
         <div>
-          <p>{qrCodeData.join('\n')}</p>
+          <p>{qrCodeData}</p>
         </div>
         <div>
           <button onClick={handleStart}>Start Scan</button>
@@ -134,13 +127,12 @@ export const CaptureLotComponent: React.FC<CaptureLotProps> = ({onClose}) => {
 
   return (
     <div id="cam">
-      <div>
-        <h1>CAM</h1>
+    <div>
+      <h1>CAM</h1>
 
-        <QRCodeScanner />
-      </div>
-
+      <QRCodeScanner />
+    </div>
       <button onClick={() => onClose('This is LOT!')}>閉じる</button>
     </div>
   );
-}
+    }
