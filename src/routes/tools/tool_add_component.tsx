@@ -10,10 +10,11 @@ import { Outlet,
          useNavigation,
          redirect, } from "react-router-dom";
 import { CaptureLotComponent } from './capture_lot_component';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
-import { Place, Tool } from '../../API';
+import { Place, Tool, CreateToolInput } from '../../API';
 
 import QrCodeScannerRoundedIcon from '@mui/icons-material/QrCodeScannerRounded';
 import Button from '@mui/material/Button';
@@ -27,7 +28,54 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
 export const action:ActionFunction = async ({ request, params }) => {
-  return redirect(".");
+
+  console.debug('@create new action #1');
+
+  const formData = await request.formData();
+
+  let created_tool:Tool | null = null;
+  const place_id = '';
+
+  try {
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log(`The username: ${username}`);
+    console.log(`The userId: ${userId}`);
+    console.log(`The signInDetails: ${signInDetails}`);
+
+    const client = generateClient();
+
+    const toolDetails = {
+      D: 1,
+      H: 1,
+      R: 1,
+      Ds: 1,
+      L1: 1,
+      TipR: 1,
+      part_name: 'My first places!',
+      part_code: 'My first places!',
+      count: 1,
+      life_hour_spec: 10,
+      life_hour_current: 10,
+      comment: 'a',
+      //   userID: userId,
+      placeToolsId: formData.get("place_id") as string,
+    };
+
+    const result = await client.graphql({
+      query: mutations.createTool,
+      variables: { input: toolDetails }
+    });
+    console.debug('@API creation done:'+result);
+    created_tool = result.data.createTool as Tool;
+
+  } catch (err) {
+    console.debug('@API creation error.');
+    console.log(err);
+  }
+
+  console.debug('@create new action #2:'+`tool/${created_tool?.id}/edit`);
+  return redirect(`../tool/${created_tool?.id}/edit`);
+
 };
 
 export const loader:LoaderFunction = async ({params}) => {
@@ -113,6 +161,7 @@ const ToolAddComponent: React.FC = () => {
 
   return (
     <div>
+      <p>tool add</p>
       <Form method="post" onSubmit={(event) => {
         console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition))
         if(!toolAddCondition.place_id) {
@@ -120,7 +169,7 @@ const ToolAddComponent: React.FC = () => {
           event.preventDefault();
         }
       }}>
-        <select value={toolAddCondition.place_id} onChange={handlePlaceChange}>
+        <select name="place_id" value={toolAddCondition.place_id} onChange={handlePlaceChange}>
           <option key="-" value="">拠点・在庫場所選択</option>
           {  places?.map(place => (
              <option key={place?.id} value={place?.id}>{place.name}</option>

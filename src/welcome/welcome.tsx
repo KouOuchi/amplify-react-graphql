@@ -8,20 +8,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import NotStartedRoundedIcon from '@mui/icons-material/NotStartedRounded';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
+//const bull = (
+//  <Box
+//    component="span"
+//    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+//  >
+//    •
+//  </Box>
+//);
 
 const card = (
   <React.Fragment>
     <CardContent>
       <Box display="flex" justifyContent="center">
-        <img width="200" height="200" src="/image/kougu_bako.png" />
+        <img width="150" height="150" src="/image/kougu_bako.png" alt="kougu_bako" />
       </Box>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         日進工具

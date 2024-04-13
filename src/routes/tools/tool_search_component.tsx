@@ -17,10 +17,11 @@ import { Place, Tool } from '../../API';
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@action start');
-  try {
+  const formData = await request.formData();
+  const place_id = formData.get("place_id");
 
-    
-    return redirect(`place/12345`);
+  try {
+    return redirect(`place/${place_id}`);
   } finally {
     console.debug('@action end');
   }
@@ -123,7 +124,7 @@ const ToolSearchComponent: React.FC = () => {
     <>
       <div id="serch-condition">
         <Form method="post">
-          <select value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
+          <select name="place_id" value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
             <option key="-" value="">拠点・在庫場所選択</option>
             {  places?.map(place => (
                <option key={place?.id} value={place?.id}>{place.name}</option>

@@ -31,17 +31,25 @@ import EmptyComponent from "./routes/places/empty_component";
 import { 
   action as destroyPlaceAction 
 } from "./routes/places/destroy";
-//import './index.css';
 
+// tools routes
 import ToolSearchComponent, {
   loader as toolSearchLoader,
   action as toolSearchAction 
 } from "./routes/tools/tool_search_component";
 import ToolSearchResultComponent, {
+  loader as toolSearchResultLoader,
 } from "./routes/tools/tool_search_result_component";
 import ToolAddComponent, {
   action as toolAddAction 
 } from "./routes/tools/tool_add_component";
+import EditToolComponent, {
+  action as editToolAction,
+  loader as editToolLoader,
+} from "./routes/tools/edit_tool_component";
+import { 
+  action as destroyToolAction 
+} from "./routes/tools/destroy";
 
 
 // welcom route
@@ -136,6 +144,7 @@ const router = createBrowserRouter(
             <Route
               path="place/:contactId"
               element={<ToolSearchResultComponent />}
+              loader={ toolSearchResultLoader }
             />
           </Route>
           <Route
@@ -144,9 +153,19 @@ const router = createBrowserRouter(
             loader={ toolSearchLoader }
             action={ toolAddAction }
           />
-          </Route>
+          <Route
+            path="tool/:toolId/edit"
+            element={<EditToolComponent />}
+            loader={ editToolLoader }
+            action={ editToolAction }
+          />
+          <Route
+            path="tool/:toolId/destroy"
+            action={ destroyToolAction }
+          />
         </Route>
       </Route>
+    </Route>
   )
 );
 
