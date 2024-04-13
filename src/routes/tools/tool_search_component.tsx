@@ -155,14 +155,6 @@ const ToolSearchComponent: React.FC = () => {
               name="Ds"
             />
           </p>
-          <p>L
-            <input onChange={handleLChange}
-              aria-label="Search contacts"
-              placeholder="<L>"
-              type="search"
-              name="L"
-            />
-          </p>
           <p>L1
             <input onChange={handleL1Change}
               aria-label="Search contacts"
