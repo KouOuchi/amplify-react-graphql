@@ -21,7 +21,7 @@ import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
@@ -30,19 +30,31 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
+import Rating from '@mui/material/Rating';
+import AccessTimeFilledOutlinedIcon from '@mui/icons-material/AccessTimeFilledOutlined';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+
+const StyledRating = styled(Rating)({
+  '& .MuiRating-iconFilled': {
+    color: 'green',
+  },
+  '& .MuiRating-iconHover': {
+    color: '#ff3d47',
+  },
+});
 
 interface Data {
   id: string;
   TipType: string;
   part_name: string;
   part_code: string;
-  count: number;
   life_hour_spec: number;
   life_hour_current: number;
   R: number;
@@ -106,16 +118,16 @@ const headCells: readonly HeadCell[] = [
     label: '名称',
   },
   {
-    id: 'part_code',
-    numeric: false,
-    disablePadding: true,
-    label: '商品コード',
-  },
-  {
     id: 'R',
     numeric: true,
     disablePadding: false,
     label: 'R(mm)',
+  },
+  {
+    id: 'life_hour_current',
+    numeric: false,
+    disablePadding: true,
+    label: 'life',
   },
   {
     id: 'D',
@@ -135,6 +147,12 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: 'L1(mm)',
   },
+  {
+    id: 'part_code',
+    numeric: false,
+    disablePadding: true,
+    label: '商品コード',
+  },
 ];
 
 interface EnhancedTableProps {
@@ -145,7 +163,15 @@ interface EnhancedTableProps {
   orderBy: string;
   rowCount: number;
 };
-
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -158,7 +184,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <StyledTableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -168,9 +194,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               'aria-label': 'select all desserts',
             }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -188,7 +214,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -264,7 +290,6 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
       TipType:'1', 
       part_name:tool.part_name?tool.part_name:'',
       part_code:tool.part_code?tool.part_code:'',
-      count:tool.count?tool.count:0,
       life_hour_spec:tool.life_hour_spec?tool.life_hour_spec:0, 
       life_hour_current:tool.life_hour_current?tool.life_hour_current:0, 
       R:0,
@@ -387,9 +412,20 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
                       {row.part_name}
                     </TableCell>
                     <TableCell align="right">{row.R}</TableCell>
+                    <TableCell align="right">
+                      <StyledRating
+                        name="customized-color"
+                        defaultValue={0}
+                        getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                        precision={0.1}
+                        icon={<AccessTimeFilledOutlinedIcon fontSize="inherit" />}
+                        emptyIcon={<AccessTimeOutlinedIcon fontSize="inherit" />}
+                      />
+                    </TableCell>
                     <TableCell align="right">{row.D}</TableCell>
                     <TableCell align="right">{row.Ds}</TableCell>
                     <TableCell align="right">{row.L1}</TableCell>
+                    <TableCell align="right">{row.part_code}</TableCell>
                   </TableRow>
                 );
               })}

@@ -9,7 +9,6 @@ import { Outlet,
          useLoaderData,
          useNavigation,
          redirect, } from "react-router-dom";
-import { CaptureLotComponent } from './capture_lot_component';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
@@ -67,21 +66,10 @@ const tip_type_options: Option[] = [
 
 const ToolSearchComponent: React.FC = () => {
   console.debug('@Tools:');
-  const [isCaptureLotOpen, setIsCaptureLot] = useState(false);
-  const [captureLotResult, setCaptureLotResult] = useState<string | null>(null);
 
   const [toolSearchCondition, setToolSearchCondition] = React.useState<ToolSearchCondition>({} as ToolSearchCondition);
 
   const places = useLoaderData() as Array<Place>;
-
-  const handleOpenCaptureLot = () => {
-    setIsCaptureLot(true);
-  };
-
-  const handleCloseCaptureLot = (result:string) => {
-    setIsCaptureLot(false);
-    setCaptureLotResult(result);
- };
 
   // input handlers
   const handlePlaceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -174,19 +162,8 @@ const ToolSearchComponent: React.FC = () => {
             <button type="submit">更新</button>
           </div>
         </Form>
-
-        <div>
-          {isCaptureLotOpen && <CaptureLotComponent onClose={handleCloseCaptureLot} />}
-          <button onClick={handleOpenCaptureLot}>モーダルを開く</button>
-          {captureLotResult && <div>モーダルからのデータ: {captureLotResult}</div>}
-        </div>
       </div>
-
-
-      <div id="grid">
-        <h1>tools </h1>
-        <Outlet context={{toolSearchCondition} satisfies ToolResultContextType} />
-      </div>
+      <Outlet context={{toolSearchCondition} satisfies ToolResultContextType} />
     </>
   );
 };
