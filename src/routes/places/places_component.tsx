@@ -14,6 +14,21 @@ import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import { Place } from '../../API';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Unstable_Grid2';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@create new action #1');
@@ -71,14 +86,19 @@ const PlacesComponent: React.FC = () => {
 
   return (
     <div>
-      <div id="sidebar">
-        <h1>拠点・在庫場所一覧</h1>
-        <div>
-          <Form method="post">
-            <button type="submit">New</button>
-          </Form>
-        </div>
-
+      <Box sx={{ flexGrow: 1 }} padding={1}>
+        <Grid container spacing={2}>
+          <Grid xs={6}>
+            <Typography variant="h4" gutterBottom>拠点・在庫場所</Typography>
+          </Grid>
+          <Grid xs={6}>
+            <Form method="post">
+              <Button type="submit" variant="contained">新規作成</Button>
+            </Form>
+          </Grid>
+        </Grid>
+      </Box>
+      <div>
         <nav>
           { places.length > 0 ? (
               <ul>
@@ -107,15 +127,7 @@ const PlacesComponent: React.FC = () => {
           }
         </nav>
       </div>
-
-      <div
-        className={
-        navigation.state === "loading" ? "loading" : ""
-        }
-      >
-        <Outlet />
-      </div>
-
+      <Outlet />
     </div>
   );
 };

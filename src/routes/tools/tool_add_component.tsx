@@ -20,12 +20,22 @@ import QrCodeScannerRoundedIcon from '@mui/icons-material/QrCodeScannerRounded';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Unstable_Grid2';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 export const action:ActionFunction = async ({ request, params }) => {
 
@@ -161,83 +171,61 @@ const ToolAddComponent: React.FC = () => {
 
   return (
     <div>
-      <p>tool add</p>
-      <Form method="post" onSubmit={(event) => {
-        console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition))
-        if(!toolAddCondition.place_id) {
-          window.alert('拠点・在庫場所を選択してください');
-          event.preventDefault();
-        }
-      }}>
-        <select name="place_id" value={toolAddCondition.place_id} onChange={handlePlaceChange}>
-          <option key="-" value="">拠点・在庫場所選択</option>
-          {  places?.map(place => (
-             <option key={place?.id} value={place?.id}>{place.name}</option>
-          ))
-          }
-        </select>
-
-        <Box sx={{ width: 250 }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              本数
-            </Grid>
-            <Grid item xs>
-              <Slider
-                value={typeof value === 'number' ? value : 1}
-                onChange={handleSliderChange}
-                aria-labelledby="input-slider"
-              />
-            </Grid>
-            <Grid item>
-              <Input
-                value={value}
-                size="small"
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                inputProps={{
-                  step: 1,
-                  min: 1,
-                  max: 100,
-                  type: 'number',
-                  'aria-labelledby': 'input-slider',
-                }}
-              />
-            </Grid>
+      <Box sx={{ flexGrow: 1 }} padding={1}>
+        <Grid container spacing={2}>
+          <Grid xs={6}>
+            <Typography variant="h4" gutterBottom>工具追加</Typography>
           </Grid>
-        </Box>
-
-        <br/>
-
-
-        <br/>
-
-        ロット番号
-        <TextField id="standard-basic"  variant="standard" onChange={(e)=> {
-          toolAddCondition.lot = e.target.value;
-          setToolAddCondition(toolAddCondition);
-          console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition));
-        }} value={toolAddCondition.lot} />
-        <br/>
-        <Button variant="outlined" onClick={handleOpen} ><QrCodeScannerRoundedIcon />QRコード取得</Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <CaptureLotComponent onClose={handleCloseCaptureLot} />
-          </Box>
-        </Modal>
-        <br/>
-        型番
-        <TextField id="standard-basic" variant="standard" />
-
-        <br/>
-        <Button type="submit" variant="contained">工具登録</Button>
-
-      </Form>
+          <Grid xs={6}>
+            <Button variant="outlined" onClick={handleOpen} ><QrCodeScannerRoundedIcon />QRコード</Button>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box sx={{ width: '100%' }}>
+        <Form method="post" onSubmit={(event) => {
+          console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition))
+          if(!toolAddCondition.place_id) {
+            window.alert('拠点・在庫場所を選択してください');
+            event.preventDefault();
+          }
+        }}>
+          <Stack spacing={1}>
+            <Item>拠点・在庫場所 : 
+              <select name="place_id" value={toolAddCondition.place_id} onChange={handlePlaceChange}>
+                <option key="-" value="">拠点・在庫場所選択</option>
+                {  places?.map(place => (
+                   <option key={place?.id} value={place?.id}>{place.name}</option>
+                ))
+                }
+              </select>
+            </Item>
+            <Item>ロット番号 : 
+              <TextField id="standard-basic"  variant="standard" onChange={(e)=> {
+                toolAddCondition.lot = e.target.value;
+                setToolAddCondition(toolAddCondition);
+                console.debug('@ToolAddCondition:'+JSON.stringify(toolAddCondition));
+              }} value={toolAddCondition.lot} />
+              <br/>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <CaptureLotComponent onClose={handleCloseCaptureLot} />
+                </Box>
+              </Modal>
+            </Item>
+            <Item>型番 :
+              <TextField id="standard-basic" variant="standard" />
+            </Item>
+            <Item>
+              <Button type="submit" variant="contained">工具登録</Button>
+            </Item>
+          </Stack>
+        </Form>
+      </Box>
     </div>
   );
 };

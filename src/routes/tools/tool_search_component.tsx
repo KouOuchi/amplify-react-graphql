@@ -22,8 +22,19 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Unstable_Grid2';
 
-const drawerBleeding = 56;
+const drawerBleeding = 20;
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 interface Props {
   /**
@@ -41,16 +52,6 @@ const Root = styled('div')(({ theme }) => ({
 
 const StyledBox = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
-}));
-
-const Puller = styled('div')(({ theme }) => ({
-  width: 30,
-  height: 6,
-  backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
-  borderRadius: 3,
-  position: 'absolute',
-  top: 8,
-  left: 'calc(50% - 15px)',
 }));
 
 export const action:ActionFunction = async ({request, params}) => {
@@ -164,13 +165,20 @@ const ToolSearchComponent: React.FC = (props: Props) => {
         <Global
           styles={{
             '.MuiDrawer-root > .MuiPaper-root': {
-              height: `calc(50% - ${drawerBleeding}px)`,
+              height: `calc(60% - ${drawerBleeding}px)`,
               overflow: 'visible',
             },
           }}
         />
-        <Box sx={{ textAlign: 'center', pt: 1 }}>
-          <Button onClick={toggleDrawer(true)}>工具の検索条件</Button>
+        <Box sx={{ flexGrow: 1 }} padding={1}>
+          <Grid container spacing={2}>
+            <Grid xs={6}>
+              <Typography variant="h4" gutterBottom>工具一覧</Typography>
+            </Grid>
+            <Grid xs={6}>
+              <Button variant="contained" onClick={toggleDrawer(true)}>検索条件</Button>
+            </Grid>
+          </Grid>
         </Box>
         <SwipeableDrawer
           container={container}
@@ -184,82 +192,63 @@ const ToolSearchComponent: React.FC = (props: Props) => {
             keepMounted: true,
           }}
         >
-          <StyledBox
-            sx={{
-              position: 'absolute',
-              top: -drawerBleeding,
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              visibility: 'visible',
-              right: 0,
-              left: 0,
-            }}
-          >
-            <Puller />
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>検索条件</Typography>
-          </StyledBox>
-          <StyledBox
-            sx={{
-              px: 2,
-              pb: 2,
-              height: '100%',
-              overflow: 'auto',
-            }}
-          >
-
-            <Form method="post">
-              <select name="place_id" value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
-                <option key="-" value="">拠点・在庫場所選択</option>
-                {  places?.map(place => (
-                   <option key={place?.id} value={place?.id}>{place.name}</option>
-                ))
-                }
-              </select>
-              <p>R
-                <input onChange={handleRChange}
-                  aria-label="Search contacts"
-                  placeholder="<R>"
-                  type="search"
-                  name="R"
-                />
-              </p>
-              <p>D
-                <input onChange={handleDChange}
-                  aria-label="Search contacts"
-                  placeholder="<D>"
-                  type="search"
-                  name="D"
-                />
-              </p>
-              <p>Ds
-                <input onChange={handleDsChange}
-                  aria-label="Search contacts"
-                  placeholder="<Ds>"
-                  type="search"
-                  name="Ds"
-                />
-              </p>
-              <p>L1
-                <input onChange={handleL1Change}
-                  aria-label="Search contacts"
-                  placeholder="<L1>"
-                  type="search"
-                  name="L1"
-                />
-              </p>
-
-              <select value={toolSearchCondition.tip_type} onChange={handleTipTypeChange}>
-                {tip_type_options.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-
-              <div>
-                <button type="submit">更新</button>
-              </div>
-            </Form>
-
-          </StyledBox>
+          <Box sx={{ width: '100%' }}>
+            <Stack spacing={1}>
+              <Form method="post">
+                <Item>拠点・在庫場所 :
+                  <select name="place_id" value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
+                    <option key="-" value="">拠点・在庫場所選択</option>
+                    {  places?.map(place => (
+                       <option key={place?.id} value={place?.id}>{place.name}</option>
+                    ))
+                    }
+                  </select>
+                </Item>
+                <Item>先端R : 
+                  <input onChange={handleRChange}
+                    aria-label="Search contacts"
+                    placeholder="<R>"
+                    type="search"
+                    name="R"
+                  />
+                </Item>
+                <Item>先端径 :
+                  <input onChange={handleDChange}
+                    aria-label="Search contacts"
+                    placeholder="<D>"
+                    type="search"
+                    name="D"
+                  />
+                </Item>
+                <Item>シャンク径 :
+                  <input onChange={handleDsChange}
+                    aria-label="Search contacts"
+                    placeholder="<Ds>"
+                    type="search"
+                    name="Ds"
+                  />
+                </Item>
+                <Item>有効長 :
+                  <input onChange={handleL1Change}
+                    aria-label="Search contacts"
+                    placeholder="<L1>"
+                    type="search"
+                    name="L1"
+                  />
+                </Item>
+                <Item>工具種 :
+                  <select value={toolSearchCondition.tip_type} onChange={handleTipTypeChange}>
+                    {tip_type_options.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                </Item>
+                <Item>
+                  <Button type="submit" onClick={toggleDrawer(false)}>検索</Button>
+                </Item>
+              </Form>
+            </Stack>
+          </Box>
         </SwipeableDrawer>
       </div>
 
