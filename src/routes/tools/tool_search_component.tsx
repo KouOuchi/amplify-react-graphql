@@ -13,6 +13,45 @@ import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import { Place, Tool } from '../../API';
+import { Global } from '@emotion/react';
+import { styled } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { grey } from '@mui/material/colors';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
+import Typography from '@mui/material/Typography';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+
+const drawerBleeding = 56;
+
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+
+const Root = styled('div')(({ theme }) => ({
+  height: '100%',
+  backgroundColor:
+    theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
+}));
+
+const StyledBox = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
+}));
+
+const Puller = styled('div')(({ theme }) => ({
+  width: 30,
+  height: 6,
+  backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
+  borderRadius: 3,
+  position: 'absolute',
+  top: 8,
+  left: 'calc(50% - 15px)',
+}));
 
 export const action:ActionFunction = async ({request, params}) => {
   console.debug('@action start');
@@ -64,7 +103,7 @@ const tip_type_options: Option[] = [
   { value: 'square', label: 'スクエア' },
 ];
 
-const ToolSearchComponent: React.FC = () => {
+const ToolSearchComponent: React.FC = (props: Props) => {
   console.debug('@Tools:');
 
   const [toolSearchCondition, setToolSearchCondition] = React.useState<ToolSearchCondition>({} as ToolSearchCondition);
@@ -108,61 +147,122 @@ const ToolSearchComponent: React.FC = () => {
     console.debug('@ToolSearchCondition:'+JSON.stringify(toolSearchCondition))
   };
 
+  const { window } = props;
+  const [open, setOpen] = React.useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  // This is used only for the example
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+
   return (
     <>
-      <div id="serch-condition">
-        <Form method="post">
-          <select name="place_id" value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
-            <option key="-" value="">拠点・在庫場所選択</option>
-            {  places?.map(place => (
-               <option key={place?.id} value={place?.id}>{place.name}</option>
-            ))
-            }
-          </select>
-          <p>R
-            <input onChange={handleRChange}
-              aria-label="Search contacts"
-              placeholder="<R>"
-              type="search"
-              name="R"
-            />
-          </p>
-          <p>D
-            <input onChange={handleDChange}
-              aria-label="Search contacts"
-              placeholder="<D>"
-              type="search"
-              name="D"
-            />
-          </p>
-          <p>Ds
-            <input onChange={handleDsChange}
-              aria-label="Search contacts"
-              placeholder="<Ds>"
-              type="search"
-              name="Ds"
-            />
-          </p>
-          <p>L1
-            <input onChange={handleL1Change}
-              aria-label="Search contacts"
-              placeholder="<L1>"
-              type="search"
-              name="L1"
-            />
-          </p>
+      <div>
+        <Global
+          styles={{
+            '.MuiDrawer-root > .MuiPaper-root': {
+              height: `calc(50% - ${drawerBleeding}px)`,
+              overflow: 'visible',
+            },
+          }}
+        />
+        <Box sx={{ textAlign: 'center', pt: 1 }}>
+          <Button onClick={toggleDrawer(true)}>工具の検索条件</Button>
+        </Box>
+        <SwipeableDrawer
+          container={container}
+          anchor="bottom"
+          open={open}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+          swipeAreaWidth={drawerBleeding}
+          disableSwipeToOpen={false}
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          <StyledBox
+            sx={{
+              position: 'absolute',
+              top: -drawerBleeding,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              visibility: 'visible',
+              right: 0,
+              left: 0,
+            }}
+          >
+            <Puller />
+            <Typography sx={{ p: 2, color: 'text.secondary' }}>検索条件</Typography>
+          </StyledBox>
+          <StyledBox
+            sx={{
+              px: 2,
+              pb: 2,
+              height: '100%',
+              overflow: 'auto',
+            }}
+          >
 
-          <select value={toolSearchCondition.tip_type} onChange={handleTipTypeChange}>
-            {tip_type_options.map(option => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
+            <Form method="post">
+              <select name="place_id" value={toolSearchCondition.place_id} onChange={handlePlaceChange}>
+                <option key="-" value="">拠点・在庫場所選択</option>
+                {  places?.map(place => (
+                   <option key={place?.id} value={place?.id}>{place.name}</option>
+                ))
+                }
+              </select>
+              <p>R
+                <input onChange={handleRChange}
+                  aria-label="Search contacts"
+                  placeholder="<R>"
+                  type="search"
+                  name="R"
+                />
+              </p>
+              <p>D
+                <input onChange={handleDChange}
+                  aria-label="Search contacts"
+                  placeholder="<D>"
+                  type="search"
+                  name="D"
+                />
+              </p>
+              <p>Ds
+                <input onChange={handleDsChange}
+                  aria-label="Search contacts"
+                  placeholder="<Ds>"
+                  type="search"
+                  name="Ds"
+                />
+              </p>
+              <p>L1
+                <input onChange={handleL1Change}
+                  aria-label="Search contacts"
+                  placeholder="<L1>"
+                  type="search"
+                  name="L1"
+                />
+              </p>
 
-          <div>
-            <button type="submit">更新</button>
-          </div>
-        </Form>
+              <select value={toolSearchCondition.tip_type} onChange={handleTipTypeChange}>
+                {tip_type_options.map(option => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+
+              <div>
+                <button type="submit">更新</button>
+              </div>
+            </Form>
+
+          </StyledBox>
+        </SwipeableDrawer>
       </div>
+
       <Outlet context={{toolSearchCondition} satisfies ToolResultContextType} />
     </>
   );
