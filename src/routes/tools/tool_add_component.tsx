@@ -54,20 +54,32 @@ export const action:ActionFunction = async ({ request, params }) => {
 
     const client = generateClient();
 
+    const getToolTypeString = (s:string) => {
+      if(s=="1") {
+        return 'Ball';
+      } else if(s =="2") {
+        return 'Radius';
+      } else {
+        return 'Square';
+      }
+    }
+
+
+
     const toolDetails = {
-      D: 1,
-      H: 1,
-      R: 1,
-      Ds: 1,
-      L1: 1,
+//      D: parseFloat(formData.get("D") as string),
+//      H: parseFloat(formData.get("H") as string),
+//      R: parseFloat(formData.get("R") as string),
+//      Ds: parseFloat(formData.get("D") as string),
+//      L1: parseFloat(formData.get("L1") as string),
+//      TipR: getToolTypeString(parseFloat(formData.get("L1") as string)),
       TipR: 1,
-      part_name: 'My first places!',
-      part_code: 'My first places!',
+      part_name: '',
+      part_code: '',
       count: 1,
       life_hour_spec: 10,
       life_hour_current: 10,
-      comment: 'a',
-      //   userID: userId,
+      comment: formData.get("comment") as string,
       placeToolsId: formData.get("place_id") as string,
     };
 

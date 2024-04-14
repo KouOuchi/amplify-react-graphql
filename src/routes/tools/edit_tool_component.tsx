@@ -11,6 +11,12 @@ import { generateClient } from 'aws-amplify/api';
 import { getTool } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 import { Tool } from '../../API';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@editAction:');
@@ -38,7 +44,7 @@ export const action:ActionFunction = async ({ request, params }) => {
   } catch (err) {
     console.error('error updating Place', err);
   }
-  return redirect('..');
+  return redirect('../tool_add');
 };
 
 export const loader:LoaderFunction = async ({params}) => {
@@ -87,101 +93,105 @@ const EditToolComponent: React.FC = () => {
   const TipR = tool?.TipR as number;
   
   return (
-    <Form method="post" id="contact-form">
-      <p>
-        <span>拠点・在庫場所</span>
-        <input
-          placeholder="< 拠点・在庫場所 >"
-          aria-label="name"
-          type="text"
-          readOnly={true}
-          defaultValue={place_name}
-        />
-      </p>
-      <p>
-        <span>品名</span>
-        <input
-          aria-label="part_name"
-          type="text"
-          name="part_name"
-          defaultValue={part_name}
-        />
-      </p>
-      <p>
-        <span>品目コード</span>
-        <input
-          aria-label="part_code"
-          type="text"
-          name="part_code"
-          defaultValue={part_code}
-        />
-      </p>
-      <p>
-        <span>R</span>
-        <input
-          aria-label="R"
-          type="text"
-          name="R"
-          defaultValue={R}
-        />
-      </p>
-      <p>
-        <span>D</span>
-        <input
-          aria-label="D"
-          type="text"
-          name="D"
-          defaultValue={D}
-        />
-      </p>
-      <p>
-        <span>Ds</span>
-        <input
-          aria-label="Ds"
-          type="text"
-          name="Ds"
-          defaultValue={Ds}
-        />
-      </p>
-      <p>
-        <span>H</span>
-        <input
-          aria-label="H"
-          type="text"
-          name="H"
-          defaultValue={H}
-        />
-      </p>
-      <p>
-        <span>L1</span>
-        <input
-          aria-label="L1"
-          type="text"
-          name="L1"
-          defaultValue={L1}
-        />
-      </p>
-      <p>
-        <span>コメント</span>
-        <textarea
-          placeholder="< コメント >"
-          aria-label="comment"
-          name="comment"
-          defaultValue={comment}
-          rows={6}
-        />
-      </p>
-      <p>
-        <button type="submit">Save</button>
-        <button type="button"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Cancel
-        </button>
-      </p>
-    </Form>
+    <Card sx={{ minWidth: 375 }}>
+      <CardContent>
+        <Form method="post" id="contact-form">
+          <p>
+            <span>拠点・在庫場所</span>
+            <input
+              placeholder="< 拠点・在庫場所 >"
+              aria-label="name"
+              type="text"
+              readOnly={true}
+              defaultValue={place_name}
+            />
+          </p>
+          <p>
+            <span>品名</span>
+            <input
+              aria-label="part_name"
+              type="text"
+              name="part_name"
+              defaultValue={part_name}
+            />
+          </p>
+          <p>
+            <span>品目コード</span>
+            <input
+              aria-label="part_code"
+              type="text"
+              name="part_code"
+              defaultValue={part_code}
+            />
+          </p>
+          <p>
+            <span>R</span>
+            <input
+              aria-label="R"
+              type="text"
+              name="R"
+              defaultValue={R}
+            />
+          </p>
+          <p>
+            <span>D</span>
+            <input
+              aria-label="D"
+              type="text"
+              name="D"
+              defaultValue={D}
+            />
+          </p>
+          <p>
+            <span>Ds</span>
+            <input
+              aria-label="Ds"
+              type="text"
+              name="Ds"
+              defaultValue={Ds}
+            />
+          </p>
+          <p>
+            <span>H</span>
+            <input
+              aria-label="H"
+              type="text"
+              name="H"
+              defaultValue={H}
+            />
+          </p>
+          <p>
+            <span>L1</span>
+            <input
+              aria-label="L1"
+              type="text"
+              name="L1"
+              defaultValue={L1}
+            />
+          </p>
+          <p>
+            <span>コメント</span>
+            <textarea
+              placeholder="< コメント >"
+              aria-label="comment"
+              name="comment"
+              defaultValue={comment}
+              rows={6}
+            />
+          </p>
+          <CardActions>
+            <Button variant="contained" type="submit">保存</Button>
+            <Button variant="contained"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              キャンセル
+            </Button>
+          </CardActions>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -124,12 +124,6 @@ const headCells: readonly HeadCell[] = [
     label: 'R(mm)',
   },
   {
-    id: 'life_hour_current',
-    numeric: false,
-    disablePadding: true,
-    label: 'life',
-  },
-  {
     id: 'D',
     numeric: true,
     disablePadding: false,
@@ -140,6 +134,12 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: 'Ds(mm)',
+  },
+  {
+    id: 'life_hour_current',
+    numeric: false,
+    disablePadding: true,
+    label: '残寿命(時)',
   },
   {
     id: 'L1',
@@ -223,53 +223,54 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  handleDeleteSelected: ()=>void;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, handleDeleteSelected } = props;
+    
+    return (
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+          ...(numSelected > 0 && {
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          }),
+        }}
+      >
+        {numSelected > 0 ? (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
 
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <></>
-      )}
-    </Toolbar>
-  );
-}
+          </Typography>
+        )}
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton onClick={handleDeleteSelected}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <></>
+        )}
+      </Toolbar>
+    );
+  }
 
 interface ToolListPros {
   tool_list:Array<Tool>;
@@ -283,6 +284,10 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  const handleDelete = ()=> {
+    console.debug('@handleDelete:'+JSON.stringify(selected))
+  };
+
 
   const rows:Data[] = tool_list.map(tool => 
     ({
@@ -290,12 +295,12 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
       TipType:'1', 
       part_name:tool.part_name?tool.part_name:'',
       part_code:tool.part_code?tool.part_code:'',
-      life_hour_spec:tool.life_hour_spec?tool.life_hour_spec:0, 
-      life_hour_current:tool.life_hour_current?tool.life_hour_current:0, 
-      R:0,
-      D:0,
-      Ds:0,
-      L1:0
+      life_hour_spec:0,
+      life_hour_current:0,
+      R:(tool.R?tool.R:0),
+      D:(tool.D?tool.D:0),
+      Ds:(tool.Ds?tool.Ds:0),
+      L1:(tool.L1?tool.L1:0)
     })
   );
   
@@ -360,10 +365,34 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
     [order, orderBy, page, rowsPerPage],
   );
 
+  const handleDeleteSelectedFunc = async () => {
+    console.debug('@handleDelete:'+JSON.stringify(selected))
+
+    const deleteTools = async () => {
+
+      const client = generateClient();
+
+      selected.map(s => {
+        client.graphql({ 
+          query: mutations.deleteTool,
+          variables: {
+            input: {
+              id: s
+            }
+          }
+        });
+      });
+
+    };
+
+    deleteTools();
+    window.location.reload();
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} handleDeleteSelected={handleDeleteSelectedFunc} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -412,18 +441,18 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
                       {row.part_name}
                     </TableCell>
                     <TableCell align="right">{row.R}</TableCell>
+                    <TableCell align="right">{row.D}</TableCell>
+                    <TableCell align="right">{row.Ds}</TableCell>
                     <TableCell align="right">
                       <StyledRating
                         name="customized-color"
                         defaultValue={0}
                         getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                         precision={0.1}
-                        icon={<AccessTimeFilledOutlinedIcon fontSize="inherit" />}
-                        emptyIcon={<AccessTimeOutlinedIcon fontSize="inherit" />}
+                        icon={<AccessTimeFilledOutlinedIcon fontSize="small" />}
+                        emptyIcon={<AccessTimeOutlinedIcon fontSize="small" />}
                       />
                     </TableCell>
-                    <TableCell align="right">{row.D}</TableCell>
-                    <TableCell align="right">{row.Ds}</TableCell>
                     <TableCell align="right">{row.L1}</TableCell>
                     <TableCell align="right">{row.part_code}</TableCell>
                   </TableRow>

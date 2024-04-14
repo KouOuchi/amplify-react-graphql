@@ -9,6 +9,12 @@ import {
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import { Place } from '../../API';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@editAction:');
@@ -41,38 +47,44 @@ const EditPlaceComponent: React.FC = () => {
   const place_comment = place?.comment as string;
   
   return (
-    <Form method="post" id="contact-form">
-      <p>
-        <span>拠点・在庫場所</span>
-        <input
-          placeholder="< 拠点・在庫場所 >"
-          aria-label="name"
-          type="text"
-          name="name"
-          defaultValue={place_name}
-        />
-      </p>
-      <label>
-        <span>コメント</span>
-        <textarea
-          placeholder="< コメント >"
-          aria-label="comment"
-          name="comment"
-          defaultValue={place_comment}
-          rows={6}
-        />
-      </label>
-      <p>
-        <button type="submit">Save</button>
-        <button type="button"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Cancel
-        </button>
-      </p>
-    </Form>
+    <Card sx={{ minWidth: 375 }}>
+      <CardContent>
+        <Form method="post" id="contact-form">
+          <p>
+            <span>拠点・在庫場所</span>
+            <input
+              placeholder="< 拠点・在庫場所 >"
+              aria-label="name"
+              type="text"
+              name="name"
+              defaultValue={place_name}
+            />
+          </p>
+          <label>
+            <span>コメント</span>
+            <textarea
+              placeholder="< コメント >"
+              aria-label="comment"
+              name="comment"
+              defaultValue={place_comment}
+              rows={6}
+    />
+          </label>
+          <p>
+          </p>
+          <CardActions>
+            <Button type="submit" variant="contained">保存</Button>
+            <Button variant="contained"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              キャンセル
+            </Button>
+          </CardActions>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 

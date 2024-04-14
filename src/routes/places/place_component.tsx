@@ -10,6 +10,12 @@ import { generateClient } from 'aws-amplify/api';
 import { getPlace } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 import { Place } from '../../API';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 export const action:ActionFunction = async ({ request, params }) => {
   console.debug('@contactAction!');
@@ -47,34 +53,35 @@ const PlaceComponent: React.FC = () => {
   const place = useLoaderData() as Place|null;
 
   return (
-    <div id="place">
-      <div>
-        <h1>
+    <Card sx={{ minWidth: 375 }}>
+      <CardContent>
+
+        <Typography variant="h5">
           {place?.name}
-        </h1>
+        </Typography>
 
-        {place?.comment && <p>{place?.comment}</p>}
+        <Typography>
+          コメント: {place?.comment && place?.comment}
+        </Typography>
 
-        <div>
+        <CardActions>
           <Form action="edit">
-            <button type="submit">Edit</button>
+            <Button variant="contained" type="submit">編集</Button>
           </Form>
-          <Form
-            action="destroy" method="post"
-            onSubmit={(event) => {
-              const isConfirmed = window.confirm("本当に削除しますか？");
-              if (!isConfirmed) {
-                console.debug("@answer no.");
-                event.preventDefault();
-              } else {
-                console.debug("@answer yes.");
-              }
-            }}>
-            <button type="submit">Delete</button>
+          <Form action="destroy" method="post" onSubmit={(event) => {
+            const isConfirmed = window.confirm("本当に削除しますか？");
+            if (!isConfirmed) {
+              console.debug("@answer no.");
+              event.preventDefault();
+            } else {
+              console.debug("@answer yes.");
+            }
+          }}>
+            <Button type="submit" variant="contained">削除</Button>
           </Form>
-        </div>
-      </div>
-    </div>
+        </CardActions>
+      </CardContent>
+    </Card>
   );
 }
 
