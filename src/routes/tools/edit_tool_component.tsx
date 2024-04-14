@@ -26,6 +26,11 @@ export const action:ActionFunction = async ({ request, params }) => {
           id: params.toolId as string,
           part_name: formData.get("part_name") as string,
           part_code: formData.get("part_code") as string,
+          R: parseFloat(formData.get("R") as string),
+          D: parseFloat(formData.get("D") as string),
+          Ds: parseFloat(formData.get("Ds") as string),
+          H: parseFloat(formData.get("H") as string),
+          L1: parseFloat(formData.get("L1") as string),
           comment: formData.get("comment") as string,
         }
       }
@@ -89,11 +94,74 @@ const EditToolComponent: React.FC = () => {
           placeholder="< 拠点・在庫場所 >"
           aria-label="name"
           type="text"
-          name="name"
+          readOnly={true}
           defaultValue={place_name}
         />
       </p>
-      <label>
+      <p>
+        <span>品名</span>
+        <input
+          aria-label="part_name"
+          type="text"
+          name="part_name"
+          defaultValue={part_name}
+        />
+      </p>
+      <p>
+        <span>品目コード</span>
+        <input
+          aria-label="part_code"
+          type="text"
+          name="part_code"
+          defaultValue={part_code}
+        />
+      </p>
+      <p>
+        <span>R</span>
+        <input
+          aria-label="R"
+          type="text"
+          name="R"
+          defaultValue={R}
+        />
+      </p>
+      <p>
+        <span>D</span>
+        <input
+          aria-label="D"
+          type="text"
+          name="D"
+          defaultValue={D}
+        />
+      </p>
+      <p>
+        <span>Ds</span>
+        <input
+          aria-label="Ds"
+          type="text"
+          name="Ds"
+          defaultValue={Ds}
+        />
+      </p>
+      <p>
+        <span>H</span>
+        <input
+          aria-label="H"
+          type="text"
+          name="H"
+          defaultValue={H}
+        />
+      </p>
+      <p>
+        <span>L1</span>
+        <input
+          aria-label="L1"
+          type="text"
+          name="L1"
+          defaultValue={L1}
+        />
+      </p>
+      <p>
         <span>コメント</span>
         <textarea
           placeholder="< コメント >"
@@ -102,7 +170,7 @@ const EditToolComponent: React.FC = () => {
           defaultValue={comment}
           rows={6}
         />
-      </label>
+      </p>
       <p>
         <button type="submit">Save</button>
         <button type="button"

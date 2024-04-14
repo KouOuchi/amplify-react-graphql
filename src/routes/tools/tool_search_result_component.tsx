@@ -255,7 +255,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          工具一覧
+
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -281,7 +281,7 @@ const EnhancedTable:React.FC<ToolListPros> = ({tool_list}) => {
   const [orderBy, setOrderBy] = React.useState<keyof Data>('R');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 
   const rows:Data[] = tool_list.map(tool => 
